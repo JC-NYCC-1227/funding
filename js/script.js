@@ -581,5 +581,9 @@ $(document).ready(function(){
       return word[0].toUpperCase() + word.slice(1);
     };
   };
+  
+  //leaving mobile detection jQuery just in case
+  if (/Mobi/.test(navigator.userAgent)) {
+  }
 //End document ready
 });

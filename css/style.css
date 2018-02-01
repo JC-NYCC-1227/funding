@@ -66,3 +66,15 @@ body{background-color:#F9F9F9;font-family:'Open Sans',sans-serif;overflow-x:hidd
     #search-bar .search-fields{margin:3.5px;height:15px;}
     table#funds{width:99%;}
 }
+
+@media screen and (orientation:portrait) {
+  /* force user to go into landscape mode on mobile */
+  body {
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    transform: rotate(90deg);
+    width: 100vw ;
+    height: 100vh ;
+    overflow: scroll;
+  }
+}
