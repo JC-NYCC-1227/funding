@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Discretionary Funding</title>
+  <link rel="stylesheet" href="css/opensans.css">
+  <link rel="stylesheet" href="css/izModal.css">
+  <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="loader">
+    <div class="lds-css ng-scope">
+      <div style="width:100%;height:100%" class="lds-double-ring">
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <div id="not-loader">
+    <div id="header">
+      <a href="https://council.nyc.gov"><img src="img/nycc-wordmark-blue.png" alt="New York City Counil"></a>
+    </div>
+    <div id="options">
+      <button id="change">View Amount Per Borough</button>
+      <button id="search-menu-button">Search&nbsp;&nbsp;<i class="fa fa-angle-double-right"></i></button>
+    </div>
+    <div id="chart-container">
+      <span class="yearNumber"></span>
+      <canvas id="funding-chart" width="400" height="150" MinHeight="50" MinWidth="50"></canvas>
+    </div>
+    <div id="search-container">
+      <div id="close-menu"><span>Close X</span></div>
+      <div id="search-bar">
+        <div id="advanced-options">
+          <input type="checkbox" value="address"><label>Address</label>
+          <input type="checkbox" value="amount"><label>Amount</label>
+          <input type="checkbox" value="borough"><label>Borough</label>
+          <input type="checkbox" value="city"><label>City</label>
+          <input type="checkbox" value="council_district"><label>Council District</label>
+          <br>
+          <input type="checkbox" value="council_member"><label>Council Member</label>
+          <input type="checkbox" value="fiscal_year" checked><label>Fiscal Year</label>
+          <input type="checkbox" value="legal_name_of_organization" checked><label>Organzation</label>
+          <input type="checkbox" value="source" checked><label>Source</label>
+          <input type="checkbox" value="postcode"><label>Zip Code</label>
+        </div>
+        <form id="search-form" class="form">
+          <div id="search-field-container">
+            <input class="search-fields" id="legal_name_of_organization" type="text" placeholder="Organization" />
+            <input class="search-fields" id="source" type="text" placeholder="Source" />
+            <input class="search-fields" id="fiscal_year" type="number" min="2000" placeholder="Fiscal Year" />
+          </div>
+          <div id="button-container">
+            <button class="search-button" type="submit">Search&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i></button>
+          </div>
+        </form>
+      </div>
+      <div id="search-results"></div>
+      <div id="budgets">
+        <ul class="pagination paginationTop"></ul>
+        <table id="funds" border="1|0">
+          <thead>
+            <tr>
+              <td class="sorting by-legal_name_of_organization" data-sort-asc="true"><span>Organization Name</span> <i class="fa" aria-hidden="true"></i></td>
+              <td class="sorting by-amount" data-sort-asc="true" ><span>Amount</span> <i class="fa" aria-hidden="true"></i></td>
+              <td class="sorting by-council_member" data-sort-asc="true" ><span>Member</span> <i class="fa" aria-hidden="true"></i></td>
+              <td class="sorting by-source" data-sort-asc="true" ><span>Source</span> <i class="fa" aria-hidden="true"></i></td>
+            </tr>
+          </thead>
+          <tbody class="list">
+          </tbody>
+        </table>
+        <ul class="pagination paginationBottom"></ul>
+      </div>
+      <div style="display:none" id="modal" data-iziModal-title="" data-iziModal-subtitle="">
+        <p class="full-address"></p>
+        <p class="purpose"></p>
+        <p class="additional-details"></p>
+      </div>
+    </div>
+  </div>
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/fontawesome.js"></script>
+  <script src="js/izModal.js"></script>
+  <script src="js/list.1.5.0.min.js"></script>
+  <script src="js/chartjs.bundle.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
