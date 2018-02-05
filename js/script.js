@@ -1,4 +1,3 @@
-$("#search-container").css({"left": "-"+$("#search-container").width()+"px"});
 $(document).ready(function(){
   const secure="yTdpNEcXki56kPgsDBxj2nuYf";
   $("#modal").iziModal({
@@ -178,18 +177,18 @@ $(document).ready(function(){
         options: {
           scales: {
             yAxes: [{
-              scaleLabel: {
-                display: true,
-                labelString: 'Number of Fund Givens',
-                fontSize: 16
-              },
+              // scaleLabel: {
+              //   display: true,
+              //   labelString: 'Number of Fund Givens',
+              //   fontSize: 16
+              // },
             }]
           },
-          title: {
-            display: true,
-            text: "Discretionary Funding Given to Boroughs Over the Years",
-            fontSize: 20
-          },
+          // title: {
+          //   display: true,
+          //   text: "Discretionary Funding Given to Boroughs Over the Years",
+          //   fontSize: 20
+          // },
           tooltips:{
             mode: "index",
             intersect: false
@@ -240,9 +239,9 @@ $(document).ready(function(){
         },
         options: {
           title: {
-            display: true,
-            text: "Discretionary Funding Given to Boroughs Over the Years",
-            fontSize: 20
+            // display: true,
+            // text: "Discretionary Funding Given to Boroughs Over the Years",
+            // fontSize: 20
           },
           tooltips:{
             mode: "index",
@@ -259,11 +258,11 @@ $(document).ready(function(){
           },
           scales: {
             yAxes: [{
-              scaleLabel: {
-                display: true,
-                labelString: 'Amount Given',
-                fontSize: 16
-              },
+              // scaleLabel: {
+              //   display: true,
+              //   labelString: 'Amount Given',
+              //   fontSize: 16
+              // },
               ticks: {
                 beginAtZero: true,
                 callback: function(value, index, values) {
@@ -335,18 +334,18 @@ $(document).ready(function(){
                   }
                 }],
                 yAxes: [{
-                  scaleLabel: {
-                    display: true,
-                    labelString: 'Number of Fund Givens',
-                    fontSize: 16
-                  },
+                  // scaleLabel: {
+                  //   display: true,
+                  //   labelString: 'Number of Fund Givens',
+                  //   fontSize: 16
+                  // },
                 }]
               },
-              title: {
-                display: true,
-                text: "Discretionary Funding Given to Agencies Over the Years",
-                fontSize: 20
-              },
+              // title: {
+              //   display: true,
+              //   text: "Discretionary Funding Given to Agencies Over the Years",
+              //   fontSize: 20
+              // },
               tooltips:{
                 mode: "index",
                 intersect: false
@@ -394,11 +393,11 @@ $(document).ready(function(){
                   }
                 }],
                 yAxes: [{
-                  scaleLabel: {
-                    display: true,
-                    labelString: 'Amount Given',
-                    fontSize: 16
-                  },
+                  // scaleLabel: {
+                  //   display: true,
+                  //   labelString: 'Amount Given',
+                  //   fontSize: 16
+                  // },
                   ticks: {
                     beginAtZero: true,
                     callback: function(value, index, values) {
@@ -412,9 +411,9 @@ $(document).ready(function(){
                 }]
               },
               title: {
-                display: true,
-                text: "Discretionary Funding Given to Agencies Over the Years",
-                fontSize: 20
+                // display: true,
+                // text: "Discretionary Funding Given to Agencies Over the Years",
+                // fontSize: 20
               }
             }
           }
@@ -487,7 +486,7 @@ $(document).ready(function(){
         searchResult(searchValues,globalData);
       });
 
-      $("#advanced-options input").on("change",function(){$(this).prop("checked")?$("div#search-field-container").append('<input class="search-fields" id="'+$(this).val()+'" type="text" placeholder="'+$(this).val().split("_").join(" ").titleize()+'">'):$("#"+$(this).val()).remove();});
+      $("#advanced-options input").on("change",function(){$(this).prop("checked")?$("div#search-field-container").prepend('<input class="search-fields" id="'+$(this).val()+'" type="text" placeholder="'+$(this).val().split("_").join(" ").titleize()+'">'):$("#"+$(this).val()).remove();});
       
       $(".sorting").click(function(e){
         sortColumn=$(this).attr("class").split(" ")[1].split("-")[1];
@@ -520,7 +519,7 @@ $(document).ready(function(){
           $("#agency-year-slider").off();
           $("#agency-year-slider").val("2009");
           updateAgencyYear("2009",fundedYears,"number of funds");
-          $("#chart-container").append('<div class="slide-container"><input type="range" min="2009" max="'+data2.data.labels.slice(-2,-1)+'" value="2009" step="1" id="agency-year-slider"></div>');
+          $("#chart-container").prepend('<div class="slide-container"><input type="range" min="2009" max="'+data2.data.labels.slice(-2,-1)+'" value="2009" step="1" id="agency-year-slider"></div>');
           $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
           $("#agency-year-slider").on("input", function(e){
             updateAgencyYear($(this).val(),fundedYears,"number of funds");
@@ -541,7 +540,7 @@ $(document).ready(function(){
           dataShown = 4;
         } else if (dataShown === 4){
           $(this).html("View Amount Per Borough");
-          $("#agency-year-slider").hide();
+          $(".slide-container").remove();
           stackedLine = new Chart(chart, data1);
           dataShown = 1;
         };
@@ -549,14 +548,50 @@ $(document).ready(function(){
 
       userList = new List('budgets',options,[]);
       stackedLine = new Chart(chart, data1);
+
       //End of success
       $("body").css({"position":"static","overflow-y":"visible"});
       $("#loader").hide();
       $("#not-loader").css({"visibility":"visible"});
+      resizeSearch();
+      $(window).resize(resizeSearch());
+      
+      $(window).resize(function() {
+        if ($(window).width() <= 700){
+          stackedLine.options.scales.xAxes[0].ticks.minor.fontSize = 8;
+          stackedLine.options.scales.yAxes[0].ticks.minor.fontSize = 8;
+          
+          // set proper spacing for resized font
+          stackedLine.options.scales.xAxes[0].ticks.fontSize = 8;
+          stackedLine.options.scales.yAxes[0].ticks.fontSize = 8;
+          
+          // update chart to apply new font-size
+          stackedLine.update();
+        } else {
+          stackedLine.options.scales.xAxes[0].ticks.minor.fontSize = 12;
+          stackedLine.options.scales.yAxes[0].ticks.minor.fontSize = 12;
+          
+          // set proper spacing for resized font
+          stackedLine.options.scales.xAxes[0].ticks.fontSize = 12;
+          stackedLine.options.scales.yAxes[0].ticks.fontSize = 12;
+          
+          // update chart to apply new font-size
+          stackedLine.update();
+        }
+      });
     }
     //End of AJAX GET request
   });
   
+  function resizeSearch(){
+    var searchHeight;
+    if($("body").height() < $(window).height()){
+      searchHeight= $(window).height()+"px";
+    } else {
+      searchHeight = $("body").height()+parseInt($("body").css("margin-top").slice(0,-2))+parseInt($("body").css("margin-bottom").slice(0,-2))+"px";
+    }
+    $("#search-container").css({"left": "-"+$("#search-container").width()+"px","height":searchHeight});
+  }
   //Prototyping functions
   Array.prototype.extractSubSet = function(criteria, criteriaValue){
     let subCriteria;
@@ -581,7 +616,7 @@ $(document).ready(function(){
       return word[0].toUpperCase() + word.slice(1);
     };
   };
-  
+
   //leaving mobile detection jQuery just in case
   if (/Mobi/.test(navigator.userAgent)) {
   }
