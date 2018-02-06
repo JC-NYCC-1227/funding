@@ -132,151 +132,154 @@ $(document).ready(function(){
       let stackedLine,chart = $("#funding-chart"),labels = Object.keys(fundedYears);
       labels.pop();
       labels.push("Unknown");
-      let data1 = {
-        type: "line",
-        data:{
-          labels: labels,
-          datasets:
-            [{
-              label:"Bronx",
-              borderColor: "rgba(47,86,166,0.5)",
-              backgroundColor: "rgba(47,86,166,0.1)",
-              data: bronx["budget_by_area"]
-            },
-            {
-              label:"Brooklyn",
-              borderColor:"rgba(208,93,78,0.5)",
-              backgroundColor:"rgba(208,93,78,0.1)",
-              data: brooklyn["budget_by_area"]
-            },
-            {
-              label:"Manhattan",
-              borderColor:"rgba(34,138,230,0.5)",
-              backgroundColor:"rgba(34,138,230,0.1)",
-              data: manhattan["budget_by_area"]
-            },
-            {
-              label:"Staten Island",
-              borderColor:"rgba(18,184,134,0.5)",
-              backgroundColor:"rgba(18,184,134,0.1)",
-              data: statenIsland["budget_by_area"]
-            },
-            {
-              label:"Queens",
-              borderColor:"rgba(245,159,0,0.5)",
-              backgroundColor:"rgba(245,159,0,0.1)",
-              data: queens["budget_by_area"]
-            },
-            {
-              label:"Citywide",
-              borderColor:"rgba(190,75,219,0.5)",
-              backgroundColor:"rgba(190,75,219,0.1)",
-              data: citywide["budget_by_area"]
-            }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              // scaleLabel: {
-              //   display: true,
-              //   labelString: 'Number of Fund Givens',
-              //   fontSize: 16
-              // },
-            }]
+      let createLineGraphs = function(dataset){
+        let data1 = {
+          type: "line",
+          data:{
+            labels: labels,
+            datasets:
+              [{
+                label:"Bronx",
+                borderColor: "rgba(47,86,166,0.5)",
+                backgroundColor: "rgba(47,86,166,0.1)",
+                data: bronx["budget_by_area"]
+              },
+              {
+                label:"Brooklyn",
+                borderColor:"rgba(208,93,78,0.5)",
+                backgroundColor:"rgba(208,93,78,0.1)",
+                data: brooklyn["budget_by_area"]
+              },
+              {
+                label:"Manhattan",
+                borderColor:"rgba(34,138,230,0.5)",
+                backgroundColor:"rgba(34,138,230,0.1)",
+                data: manhattan["budget_by_area"]
+              },
+              {
+                label:"Staten Island",
+                borderColor:"rgba(18,184,134,0.5)",
+                backgroundColor:"rgba(18,184,134,0.1)",
+                data: statenIsland["budget_by_area"]
+              },
+              {
+                label:"Queens",
+                borderColor:"rgba(245,159,0,0.5)",
+                backgroundColor:"rgba(245,159,0,0.1)",
+                data: queens["budget_by_area"]
+              },
+              {
+                label:"Citywide",
+                borderColor:"rgba(190,75,219,0.5)",
+                backgroundColor:"rgba(190,75,219,0.1)",
+                data: citywide["budget_by_area"]
+              }]
           },
-          // title: {
-          //   display: true,
-          //   text: "Discretionary Funding Given to Boroughs Over the Years",
-          //   fontSize: 20
-          // },
-          tooltips:{
-            mode: "index",
-            intersect: false
-          }
-        }
-      };
-      let data2 = {
-        type: "line",
-        data: {
-          labels: labels,
-          datasets:
-            [{
-              label:"Bronx",
-              borderColor: "rgba(47,86,166,0.5)",
-              backgroundColor: "rgba(47,86,166,0.1)",
-              data: bronx["yearly_amount"]
+          options: {
+            scales: {
+              xAxes:[{
+                ticks:{
+                  autoSkip:false,
+                  fontSize: $(window).width()<=700?8:12
+                }
+              }],
+              yAxes: [{
+                ticks:{
+                  fontSize: $(window).width()<=700?8:12
+                }
+              }]
             },
-            {
-              label:"Brooklyn",
-              borderColor:"rgba(208,93,78,0.5)",
-              backgroundColor:"rgba(208,93,78,0.1)",
-              data: brooklyn["yearly_amount"]
-            },
-            {
-              label:"Manhattan",
-              borderColor:"rgba(34,138,230,0.5)",
-              backgroundColor:"rgba(34,138,230,0.1)",
-              data: manhattan["yearly_amount"]
-            },
-            {
-              label:"Staten Island",
-              borderColor:"rgba(18,184,134,0.5)",
-              backgroundColor:"rgba(18,184,134,0.1)",
-              data: statenIsland["yearly_amount"]
-            },
-            {
-              label:"Queens",
-              borderColor:"rgba(245,159,0,0.5)",
-              backgroundColor:"rgba(245,159,0,0.1)",
-              data: queens["yearly_amount"]
-            },
-            {
-              label:"Citywide",
-              borderColor:"rgba(190,75,219,0.5)",
-              backgroundColor:"rgba(190,75,219,0.1)",
-              data: citywide["yearly_amount"]
-            }]
-        },
-        options: {
-          title: {
-            // display: true,
-            // text: "Discretionary Funding Given to Boroughs Over the Years",
-            // fontSize: 20
-          },
-          tooltips:{
-            mode: "index",
-            intersect: false,
-            callbacks: {
-              label: function(tooltipItems, data,index) {
-                if(parseInt(tooltipItems.yLabel) >= 1000){
-                  return data.datasets[tooltipItems.datasetIndex].label +': $' + tooltipItems.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                } else {
-                  return data.datasets[tooltipItems.datasetIndex].label +': $' + tooltipItems.yLabel;
-                };
-              }
+            tooltips:{
+              mode: "index",
+              intersect: false
             }
+          }
+        };
+        let data2 = {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets:
+              [{
+                label:"Bronx",
+                borderColor: "rgba(47,86,166,0.5)",
+                backgroundColor: "rgba(47,86,166,0.1)",
+                data: bronx["yearly_amount"]
+              },
+              {
+                label:"Brooklyn",
+                borderColor:"rgba(208,93,78,0.5)",
+                backgroundColor:"rgba(208,93,78,0.1)",
+                data: brooklyn["yearly_amount"]
+              },
+              {
+                label:"Manhattan",
+                borderColor:"rgba(34,138,230,0.5)",
+                backgroundColor:"rgba(34,138,230,0.1)",
+                data: manhattan["yearly_amount"]
+              },
+              {
+                label:"Staten Island",
+                borderColor:"rgba(18,184,134,0.5)",
+                backgroundColor:"rgba(18,184,134,0.1)",
+                data: statenIsland["yearly_amount"]
+              },
+              {
+                label:"Queens",
+                borderColor:"rgba(245,159,0,0.5)",
+                backgroundColor:"rgba(245,159,0,0.1)",
+                data: queens["yearly_amount"]
+              },
+              {
+                label:"Citywide",
+                borderColor:"rgba(190,75,219,0.5)",
+                backgroundColor:"rgba(190,75,219,0.1)",
+                data: citywide["yearly_amount"]
+              }]
           },
-          scales: {
-            yAxes: [{
-              // scaleLabel: {
-              //   display: true,
-              //   labelString: 'Amount Given',
-              //   fontSize: 16
-              // },
-              ticks: {
-                beginAtZero: true,
-                callback: function(value, index, values) {
-                  if(parseInt(value) >= 1000){
-                    return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          options: {
+            tooltips:{
+              mode: "index",
+              intersect: false,
+              callbacks: {
+                label: function(tooltipItems, data,index) {
+                  if(parseInt(tooltipItems.yLabel) >= 1000){
+                    return data.datasets[tooltipItems.datasetIndex].label +': $' + tooltipItems.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                   } else {
-                    return '$' + value;
+                    return data.datasets[tooltipItems.datasetIndex].label +': $' + tooltipItems.yLabel;
                   };
                 }
               }
-            }]
+            },
+            scales: {
+              xAxes:[{
+                ticks:{
+                  autoSkip:false,
+                  fontSize: $(window).width()<=700?8:12
+                }
+              }],
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true,
+                  callback: function(value, index, values) {
+                    if(parseInt(value) >= 1000){
+                      return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    } else {
+                      return '$' + value;
+                    };
+                  },
+                  fontSize: $(window).width()<=700?8:12
+                }
+              }]
+            }
           }
+        };
+        if (dataset === "data1"){
+          stackedLine = new Chart(chart, data1);
+        } else if (dataset === "data2"){
+          stackedLine = new Chart(chart, data2);
         }
-      };
+      }
 
       let updateAgencyYear = function(year,object,criteria){
         let color,backgroundColor,data3,agencies = [];
@@ -330,22 +333,16 @@ $(document).ready(function(){
               scales: {
                 xAxes: [{
                   ticks:{
-                    autoSkip: false
+                    autoSkip: false,
+                    fontSize: $(window).width()<=700?8:12
                   }
                 }],
                 yAxes: [{
-                  // scaleLabel: {
-                  //   display: true,
-                  //   labelString: 'Number of Fund Givens',
-                  //   fontSize: 16
-                  // },
+                  ticks:{
+                    fontSize: $(window).width()<=700?8:12
+                  }
                 }]
               },
-              // title: {
-              //   display: true,
-              //   text: "Discretionary Funding Given to Agencies Over the Years",
-              //   fontSize: 20
-              // },
               tooltips:{
                 mode: "index",
                 intersect: false
@@ -389,15 +386,12 @@ $(document).ready(function(){
               scales: {
                 xAxes: [{
                   ticks:{
-                    autoSkip: false
+                    autoSkip: false,
+                    fontSize: $(window).width()<=700?8:12
                   }
+
                 }],
                 yAxes: [{
-                  // scaleLabel: {
-                  //   display: true,
-                  //   labelString: 'Amount Given',
-                  //   fontSize: 16
-                  // },
                   ticks: {
                     beginAtZero: true,
                     callback: function(value, index, values) {
@@ -406,14 +400,10 @@ $(document).ready(function(){
                       } else {
                         return '$' + value;
                       };
-                    }
+                    },
+                    fontSize: $(window).width()<=700?8:12,
                   }
                 }]
-              },
-              title: {
-                // display: true,
-                // text: "Discretionary Funding Given to Agencies Over the Years",
-                // fontSize: 20
               }
             }
           }
@@ -508,19 +498,21 @@ $(document).ready(function(){
         stackedLine.destroy();
         if (dataShown === 1){
           $(this).html("View Funds to Agencies");
-          stackedLine = new Chart(chart, data2);
+          createLineGraphs("data2");
           dataShown = 2;
+          $("#custom-chart-title").html("Amount Received by Organization's Borough(s)")
         } else if (dataShown === 2){
           $(this).html("View Amount Per Agency");
           $("#agency-year-slider").off().val("2009");
+          $("#chart-container").prepend('<div class="slide-container"><input type="range" min="2009" max="'+stackedLine.data.labels.slice(-2,-1)+'" value="2009" step="1" id="agency-year-slider" title="Move the slider to view data from other years"></div>');
           updateAgencyYear("2009",fundedYears,"number of funds");
-          $("#chart-container").prepend('<div class="slide-container"><input type="range" min="2009" max="'+data2.data.labels.slice(-2,-1)+'" value="2009" step="1" id="agency-year-slider" title="Move the slider to view data from other years"></div>');
           $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
           $("#agency-year-slider").on("input", function(e){
             updateAgencyYear($(this).val(),fundedYears,"number of funds");
             $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
           });
           dataShown = 3;
+          $("#custom-chart-title").html("Funds Received by Organization's Agency")
           $("#agency-year-slider").show();
         } else if (dataShown === 3){
           $(this).html("View Funds to Boroughs");
@@ -532,16 +524,18 @@ $(document).ready(function(){
             $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
           });
           dataShown = 4;
+          $("#custom-chart-title").html("Amount Received by Organization's Agency")
         } else if (dataShown === 4){
           $(this).html("View Amount Per Borough");
           $(".slide-container").remove();
-          stackedLine = new Chart(chart, data1);
+          createLineGraphs("data1");
           dataShown = 1;
+          $("#custom-chart-title").html("Funds Received by Organization's Borough(s)")
         };
       });
 
       userList = new List('budgets',options,[]);
-      stackedLine = new Chart(chart, data1);
+      createLineGraphs("data1")
 
       //End of success
       $("body").css({"position":"static","overflow-y":"visible"});
@@ -552,13 +546,13 @@ $(document).ready(function(){
       $(window).resize(function() {
         if ($(window).width() <= 700){
           stackedLine.options.scales.xAxes[0].ticks.minor.fontSize = 8;
-          stackedLine.options.scales.yAxes[0].ticks.minor.fontSize = 8;
           stackedLine.options.scales.xAxes[0].ticks.fontSize = 8;
+          stackedLine.options.scales.yAxes[0].ticks.minor.fontSize = 8;
           stackedLine.options.scales.yAxes[0].ticks.fontSize = 8;
         } else {
           stackedLine.options.scales.xAxes[0].ticks.minor.fontSize = 12;
-          stackedLine.options.scales.yAxes[0].ticks.minor.fontSize = 12;
           stackedLine.options.scales.xAxes[0].ticks.fontSize = 12;
+          stackedLine.options.scales.yAxes[0].ticks.minor.fontSize = 12;
           stackedLine.options.scales.yAxes[0].ticks.fontSize = 12;
         }
         stackedLine.update();
@@ -569,7 +563,7 @@ $(document).ready(function(){
   });
   
   function resizeSearch(){
-    var searchHeight;
+    let searchHeight;
     if($("body").height() < $(window).height()){
       searchHeight= $(window).height()+"px";
       $("body").css("overflow-y","hidden");
