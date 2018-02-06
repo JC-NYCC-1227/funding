@@ -477,31 +477,27 @@ $(document).ready(function(){
         $("#modal .iziModal-content .additional-details").html(data);
         $('#modal').iziModal('open');
       };
-
       $('#search-bar #search-form').submit(function(e){
         e.preventDefault();
         userList.clear();
         let searchValues = [];
         $(".search-fields").each(function(){searchValues.push($(this).attr("id"))});
         searchResult(searchValues,globalData);
+        $(".sorting").click(function(e){
+          sortColumn=$(this).attr("class").split(" ")[1].split("-")[1];
+          let icon=$(this).children().last();
+          toggleValue=JSON.parse($(this).attr("data-sort-asc"));
+          toggleValue?userList.sort(sortColumn,{order:"desc"}):userList.sort(sortColumn,{order:"asc"});
+          $(".fa-sort-desc").removeClass("fa-sort-desc");
+          $(".fa-sort-asc").removeClass("fa-sort-asc");
+          toggleValue?icon.addClass("fa-sort-desc").removeClass("fa-sort-asc"):icon.addClass("fa-sort-asc").removeClass("fa-sort-desc");
+          $(this).attr("data-sort-asc",!toggleValue);
+        });
       });
-
       $("#advanced-options input").on("change",function(){$(this).prop("checked")?$("div#search-field-container").prepend('<input class="search-fields" id="'+$(this).val()+'" type="text" placeholder="'+$(this).val().split("_").join(" ").titleize()+'">'):$("#"+$(this).val()).remove();});
-      
-      $(".sorting").click(function(e){
-        sortColumn=$(this).attr("class").split(" ")[1].split("-")[1];
-        let icon=$(this).children().last();
-        toggleValue=JSON.parse($(this).attr("data-sort-asc"));
-        toggleValue?userList.sort(sortColumn,{order:"desc"}):userList.sort(sortColumn,{order:"asc"});
-        $(".fa-sort-desc").removeClass("fa-sort-desc");
-        $(".fa-sort-asc").removeClass("fa-sort-asc");
-        toggleValue?icon.addClass("fa-sort-desc").removeClass("fa-sort-asc"):icon.addClass("fa-sort-asc").removeClass("fa-sort-desc");
-        $(this).attr("data-sort-asc",!toggleValue);
-      });
-
       $("#search-menu-button").click(function(){
-        $("#search-container").show();
-        $("#search-container").animate({"left":"0px"},500);
+        $("#search-container").show().animate({"left":"0px"},500);
+        resizeSearch();
       });
       $("#close-menu span").click(function(){
         $("#search-container").animate({"left":"-"+$("#search-container").width()+"px"},500);
@@ -516,10 +512,9 @@ $(document).ready(function(){
           dataShown = 2;
         } else if (dataShown === 2){
           $(this).html("View Amount Per Agency");
-          $("#agency-year-slider").off();
-          $("#agency-year-slider").val("2009");
+          $("#agency-year-slider").off().val("2009");
           updateAgencyYear("2009",fundedYears,"number of funds");
-          $("#chart-container").prepend('<div class="slide-container"><input type="range" min="2009" max="'+data2.data.labels.slice(-2,-1)+'" value="2009" step="1" id="agency-year-slider"></div>');
+          $("#chart-container").prepend('<div class="slide-container"><input type="range" min="2009" max="'+data2.data.labels.slice(-2,-1)+'" value="2009" step="1" id="agency-year-slider" title="Move the slider to view data from other years"></div>');
           $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
           $("#agency-year-slider").on("input", function(e){
             updateAgencyYear($(this).val(),fundedYears,"number of funds");
@@ -529,8 +524,7 @@ $(document).ready(function(){
           $("#agency-year-slider").show();
         } else if (dataShown === 3){
           $(this).html("View Funds to Boroughs");
-          $("#agency-year-slider").off();
-          $("#agency-year-slider").val("2009");
+          $("#agency-year-slider").off().val("2009");
           updateAgencyYear("2009",fundedYears,"amount funded");
           $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
           $("#agency-year-slider").on("input", function(e){
@@ -554,30 +548,21 @@ $(document).ready(function(){
       $("#loader").hide();
       $("#not-loader").css({"visibility":"visible"});
       resizeSearch();
-      $(window).resize(resizeSearch());
       
       $(window).resize(function() {
         if ($(window).width() <= 700){
           stackedLine.options.scales.xAxes[0].ticks.minor.fontSize = 8;
           stackedLine.options.scales.yAxes[0].ticks.minor.fontSize = 8;
-          
-          // set proper spacing for resized font
           stackedLine.options.scales.xAxes[0].ticks.fontSize = 8;
           stackedLine.options.scales.yAxes[0].ticks.fontSize = 8;
-          
-          // update chart to apply new font-size
-          stackedLine.update();
         } else {
           stackedLine.options.scales.xAxes[0].ticks.minor.fontSize = 12;
           stackedLine.options.scales.yAxes[0].ticks.minor.fontSize = 12;
-          
-          // set proper spacing for resized font
           stackedLine.options.scales.xAxes[0].ticks.fontSize = 12;
           stackedLine.options.scales.yAxes[0].ticks.fontSize = 12;
-          
-          // update chart to apply new font-size
-          stackedLine.update();
         }
+        stackedLine.update();
+        resizeSearch();
       });
     }
     //End of AJAX GET request
@@ -587,8 +572,10 @@ $(document).ready(function(){
     var searchHeight;
     if($("body").height() < $(window).height()){
       searchHeight= $(window).height()+"px";
+      $("body").css("overflow-y","hidden");
     } else {
       searchHeight = $("body").height()+parseInt($("body").css("margin-top").slice(0,-2))+parseInt($("body").css("margin-bottom").slice(0,-2))+"px";
+      $("body").css("overflow-y","visible");
     }
     $("#search-container").css({"left": "-"+$("#search-container").width()+"px","height":searchHeight});
   }
@@ -598,7 +585,6 @@ $(document).ready(function(){
     criteria && criteriaValue ? subCriteria = this.filter(function(fund){return fund[criteria].trim() === criteriaValue}) : subCriteria = this.filter(function(fund){return fund[criteria].trim() === "" || fund[criteria] == null});
     return subCriteria ;
   };
-  
   //titleize words
   String.prototype.titleize = function() {
     let words = this.split(" ");
@@ -609,14 +595,12 @@ $(document).ready(function(){
     };
     return words.join(" ");
   };
-  
   String.prototype.capitalize = function() {
     let word = this;
     if (word[0] && word.toUpperCase){
       return word[0].toUpperCase() + word.slice(1);
     };
   };
-
   //leaving mobile detection jQuery just in case
   if (/Mobi/.test(navigator.userAgent)) {
   }
