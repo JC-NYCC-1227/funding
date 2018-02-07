@@ -113,7 +113,7 @@ $(document).ready(function(){
           {"attr":"data-status","name":"status"}
         ],
         item:"<tr onClick='fillData($(this))'><td class='trigger address address_2_optional agency bbl bin borough census_tract city community_board council_district ein fiscal_year latitude longitude mocs_id nta postcode purpose_of_funds program_name state status legal_name_of_organization'></td><td class='amount'></td><td class='council_member'></td><td class='source'></td></tr>",
-        page:50,
+        page:25,
         pagination: [{
           name: "paginationTop",
           paginationClass: "paginationTop",
@@ -484,7 +484,14 @@ $(document).ready(function(){
           $(this).attr("data-sort-asc",!toggleValue);
         });
       });
-      $("#advanced-options input").on("change",function(){$(this).prop("checked")?$("div#search-field-container").prepend('<input class="search-fields" id="'+$(this).val()+'" type="text" placeholder="'+$(this).val().split("_").join(" ").titleize()+'">'):$("#"+$(this).val()).remove();});
+      $("#advanced-options input").on("change",function(){
+        if($("#advanced-options input:checked").length !== 0){
+          $(this).prop("checked")?$("div#search-field-container").prepend('<input class="search-fields" id="'+$(this).val()+'" type="text" placeholder="'+$(this).val().split("_").join(" ").titleize()+'">'):$("#"+$(this).val()).remove();
+        } else {
+          alert("You need at least one search term.")
+          $(this).prop("checked",true);
+        };
+      });
       $("#search-menu-button").click(function(){
         $("#search-container").show().animate({"left":"0px"},500);
         resizeSearch();

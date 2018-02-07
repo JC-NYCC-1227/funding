@@ -51,7 +51,7 @@ body{background-color:#F9F9F9;font-family:'Open Sans',sans-serif;overflow-y:hidd
       .pagination{text-align:center;font-family:Georgia,'Times New Roman',Times,serif;}
       .pagination li{display:inline;margin:0 25px;}
       .pagination li.active a{color:#F59F00;cursor:not-allowed;text-decoration:none;}
-      .pagination li a{color:#228AE6;}
+      .pagination li a{color:#222;}
       .pagination li a:hover{color:#23417D;}
     #custom-chart-title{margin:0 0 10px 0;text-align:center;}
     #chart-container{position:relative;}
