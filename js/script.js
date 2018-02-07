@@ -15,7 +15,7 @@ $(document).ready(function(){
     //all functions and event listeners in success function to use data and make searching and sorting much faster without hitting the API everytime.
     // values NOT used: bbl, bin, census_tract, community_board, ein, latitude, longitude, mocs_id, nta
     success:function(globalData){
-      let sources,newSearch,sortColumn,toggleValue,dataShown=1,fundedYears={},agencies={},bronx={"budget_by_area":[],"yearly_amount":[]}, brooklyn={"budget_by_area":[],"yearly_amount":[]}, manhattan={"budget_by_area":[],"yearly_amount":[]}, statenIsland={"budget_by_area":[],"yearly_amount":[]}, queens={"budget_by_area":[],"yearly_amount":[]}, citywide = {"budget_by_area":[],"yearly_amount":[]};
+      let sources,newSearch,sortColumn,toggleValue,dataShown=1,fundedYears={},agencies={},bronx={"budget_by_area":[],"yearly_amount":[]}, brooklyn={"budget_by_area":[],"yearly_amount":[]}, manhattan={"budget_by_area":[],"yearly_amount":[]}, statenIsland={"budget_by_area":[],"yearly_amount":[]}, queens={"budget_by_area":[],"yearly_amount":[]}, citywide={"budget_by_area":[],"yearly_amount":[]};
 
       //_______________________________________TABULAR DATA SETUP_______________________________________//
       globalData.forEach(function(fund,index){
@@ -40,15 +40,15 @@ $(document).ready(function(){
         if(fundedYears.hasOwnProperty(fund["fiscal_year"])){
           fundedYears[fund["fiscal_year"]]["all"].push(fund);
         } else {
-          fundedYears[fund["fiscal_year"]] = {"all":[fund],"agencies":{},"agencies_amount":{},"manhattan":0,"brooklyn":0,"bronx":0,"staten island":0,"queens":0,"citywide":0,"manhattan_amount":0,"brooklyn_amount":0,"bronx_amount":0,"staten_island_amount":0,"queens_amount":0,"citywide_amount":0};
+          fundedYears[fund["fiscal_year"]]={"all":[fund],"agencies":{},"agencies_amount":{},"manhattan":0,"brooklyn":0,"bronx":0,"staten island":0,"queens":0,"citywide":0,"manhattan_amount":0,"brooklyn_amount":0,"bronx_amount":0,"staten_island_amount":0,"queens_amount":0,"citywide_amount":0};
         };
 
         if(fundedYears[fund["fiscal_year"]]["agencies"].hasOwnProperty(fund["agency"].toUpperCase().trim())){
           fundedYears[fund["fiscal_year"]]["agencies"][fund["agency"].toUpperCase().trim()] += 1;
           fundedYears[fund["fiscal_year"]]["agencies_amount"][fund["agency"].toUpperCase().trim()] += parseInt(fund["amount"]);
         } else {
-          fundedYears[fund["fiscal_year"]]["agencies"][fund["agency"].toUpperCase().trim()] = 1;
-          fundedYears[fund["fiscal_year"]]["agencies_amount"][fund["agency"].toUpperCase().trim()] = parseInt(fund["amount"]);
+          fundedYears[fund["fiscal_year"]]["agencies"][fund["agency"].toUpperCase().trim()]=1;
+          fundedYears[fund["fiscal_year"]]["agencies_amount"][fund["agency"].toUpperCase().trim()]=parseInt(fund["amount"]);
         };
 
         switch (fund["borough"].toLowerCase().trim()) {
@@ -129,11 +129,11 @@ $(document).ready(function(){
       };
       
 //_______________________________________DATA VISUALIZATION SETUP_______________________________________//
-      let stackedLine,chart = $("#funding-chart"),labels = Object.keys(fundedYears);
+      let stackedLine,chart=$("#funding-chart"),labels=Object.keys(fundedYears);
       labels.pop();
       labels.push("Unknown");
-      let createLineGraphs = function(dataset){
-        let data1 = {
+      let createLineGraphs=function(dataset){
+        let data1={
           type: "line",
           data:{
             labels: labels,
@@ -190,12 +190,15 @@ $(document).ready(function(){
               }]
             },
             tooltips:{
+              titleFontSize: $(window).width()<=700?8:12,
+              bodyFontSize: $(window).width()<=700?8:12,
+              footerFontSize: $(window).width()<=700?8:12,
               mode: "index",
               intersect: false
             }
           }
         };
-        let data2 = {
+        let data2={
           type: "line",
           data: {
             labels: labels,
@@ -239,6 +242,9 @@ $(document).ready(function(){
           },
           options: {
             tooltips:{
+              titleFontSize: $(window).width()<=700?8:12,
+              bodyFontSize: $(window).width()<=700?8:12,
+              footerFontSize: $(window).width()<=700?8:12,
               mode: "index",
               intersect: false,
               callbacks: {
@@ -275,45 +281,45 @@ $(document).ready(function(){
           }
         };
         if (dataset === "data1"){
-          stackedLine = new Chart(chart, data1);
+          stackedLine=new Chart(chart, data1);
         } else if (dataset === "data2"){
-          stackedLine = new Chart(chart, data2);
+          stackedLine=new Chart(chart, data2);
         }
       }
 
-      let updateAgencyYear = function(year,object,criteria){
-        let color,backgroundColor,data3,agencies = [];
+      let updateAgencyYear=function(year,object,criteria){
+        let color,backgroundColor,data3,agencies=[];
         switch(parseInt(year)%5){
           case 0:
-            borderColor = "rgba(47,86,166,0.9)";
-            backgroundColor = "rgba(47,86,166,0.5)";
+            borderColor="rgba(47,86,166,0.9)";
+            backgroundColor="rgba(47,86,166,0.5)";
             break;
           case 1:
-            borderColor = "rgba(208,93,78,0.9)";
-            backgroundColor = "rgba(208,93,78,0.5)";
+            borderColor="rgba(208,93,78,0.9)";
+            backgroundColor="rgba(208,93,78,0.5)";
             break;
           case 2:
-            borderColor = "rgba(190,75,219,0.9)";
-            backgroundColor = "rgba(190,75,219,0.5)";
+            borderColor="rgba(190,75,219,0.9)";
+            backgroundColor="rgba(190,75,219,0.5)";
             break;
           case 3:
-            borderColor = "rgba(34,138,230,0.9)";
-            backgroundColor = "rgba(34,138,230,0.5)";
+            borderColor="rgba(34,138,230,0.9)";
+            backgroundColor="rgba(34,138,230,0.5)";
             break;
           case 4:
-            borderColor = "rgba(18,184,134,0.9)";
-            backgroundColor = "rgba(18,184,134,0.5)";
+            borderColor="rgba(18,184,134,0.9)";
+            backgroundColor="rgba(18,184,134,0.5)";
             break; 
           default:
-            borderColor = "rgba(190,75,219,0.9)";
-            backgroundColor = "rgba(190,75,219,0.5)";
+            borderColor="rgba(190,75,219,0.9)";
+            backgroundColor="rgba(190,75,219,0.5)";
             break;
         };
         if (criteria === "number of funds"){
           for (let agency in object[year]["agencies"]){
             agencies.push(object[year]["agencies"][agency]);
           };
-          data3 = {
+          data3={
             type:"bar",
             data:{
               labels:Object.keys(object[year]["agencies"]),
@@ -344,6 +350,9 @@ $(document).ready(function(){
                 }]
               },
               tooltips:{
+                titleFontSize: $(window).width()<=700?8:12,
+                bodyFontSize: $(window).width()<=700?8:12,
+                footerFontSize: $(window).width()<=700?8:12,
                 mode: "index",
                 intersect: false
               }
@@ -353,7 +362,7 @@ $(document).ready(function(){
           for (let agency in object[year]["agencies_amount"]){
             agencies.push(object[year]["agencies_amount"][agency]);
           };
-          data3 = {
+          data3={
             type:"bar",
             data:{
               labels:Object.keys(object[year]["agencies"]),
@@ -371,6 +380,9 @@ $(document).ready(function(){
                 display: false
               },
               tooltips:{
+                titleFontSize: $(window).width()<=700?8:12,
+                bodyFontSize: $(window).width()<=700?8:12,
+                footerFontSize: $(window).width()<=700?8:12,
                 mode: "index",
                 intersect: false,
                 callbacks: {
@@ -409,38 +421,34 @@ $(document).ready(function(){
           }
         };
         stackedLine.destroy();
-        stackedLine = new Chart(chart, data3);
+        stackedLine=new Chart(chart, data3);
       }
 
       function searchResult(searchArray,response) {
-        if (searchArray.length === 0){
-          alert("You need at least 1 search term");
-        } else {
-          let htmlSearchTerms,listOfSearch = [];
-          for (let i=0; i<searchArray.length; i++){
-            listOfSearch[i] = $("#"+searchArray[i]).val().toLowerCase();
-          };
-          htmlSearchTerms = listOfSearch.join(" ").trim().toUpperCase().split(" ");
-          if(htmlSearchTerms.length > 1){
-            htmlSearchTerms[htmlSearchTerms.length] = htmlSearchTerms[htmlSearchTerms.length-1];
-            htmlSearchTerms[htmlSearchTerms.length-2] = "and";
-            htmlSearchTerms = htmlSearchTerms.join(" ");
-          }
-          newSearch=response.filter(function(budget){
-            let matchCriteria = 0;
-            for(let j=0; j<searchArray.length; j++){
-              if (budget[searchArray[j]].toLowerCase().includes(listOfSearch[j])) matchCriteria+=1;
-            };
-            if(matchCriteria === searchArray.length) return true;
-          });
-          userList=new List('budgets',options,newSearch);
-          $("#search-results").html("<h3>"+userList.size()+" Results for: "+htmlSearchTerms+"</h3>");
+        let htmlSearchTerms,listOfSearch=[];
+        for (let i=0; i<searchArray.length; i++){
+          listOfSearch[i]=$("#"+searchArray[i]).val().toLowerCase();
         };
+        htmlSearchTerms=listOfSearch.join(" ").trim().toUpperCase().split(" ");
+        if(htmlSearchTerms.length > 1){
+          htmlSearchTerms[htmlSearchTerms.length]=htmlSearchTerms[htmlSearchTerms.length-1];
+          htmlSearchTerms[htmlSearchTerms.length-2]="and";
+          htmlSearchTerms=htmlSearchTerms.join(" ");
+        }
+        newSearch=response.filter(function(budget){
+          let matchCriteria=0;
+          for(let j=0; j<searchArray.length; j++){
+            if (budget[searchArray[j]].toLowerCase().includes(listOfSearch[j])) matchCriteria+=1;
+          };
+          if(matchCriteria === searchArray.length) return true;
+        });
+        userList=new List('budgets',options,newSearch);
+        $("#search-results").html("<h3>"+userList.size()+" Results for: "+htmlSearchTerms+"</h3>");
       };
 
       //Takes data attributes to provide other info
-      fillData = function(clickedEl){
-        let fullAddress,address,address2,city,state,postcode,$dataCell = $(clickedEl).children().first();
+      fillData=function(clickedEl){
+        let fullAddress,address,address2,city,state,postcode,$dataCell=$(clickedEl).children().first();
         let org=$(clickedEl).children(".legal_name_of_organization").html().trim();
         let cm=$(clickedEl).children(".council_member").html().trim();
         let cash=$(clickedEl).children(".amount").html().trim();
@@ -470,7 +478,7 @@ $(document).ready(function(){
       $('#search-bar #search-form').submit(function(e){
         e.preventDefault();
         userList.clear();
-        let searchValues = [];
+        let searchValues=[];
         $(".search-fields").each(function(){searchValues.push($(this).attr("id"))});
         searchResult(searchValues,globalData);
         $(".sorting").click(function(e){
@@ -506,7 +514,7 @@ $(document).ready(function(){
         if (dataShown === 1){
           $(this).html("View Funds to Agencies");
           createLineGraphs("data2");
-          dataShown = 2;
+          dataShown=2;
           $("#custom-chart-title").html("Amount Received by Organization's Borough(s)")
         } else if (dataShown === 2){
           $(this).html("View Amount Per Agency");
@@ -518,7 +526,7 @@ $(document).ready(function(){
             updateAgencyYear($(this).val(),fundedYears,"number of funds");
             $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
           });
-          dataShown = 3;
+          dataShown=3;
           $("#custom-chart-title").html("Funds Received by Organization's Agency")
           $("#agency-year-slider").show();
         } else if (dataShown === 3){
@@ -530,18 +538,18 @@ $(document).ready(function(){
             updateAgencyYear($(this).val(),fundedYears,"amount funded");
             $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
           });
-          dataShown = 4;
+          dataShown=4;
           $("#custom-chart-title").html("Amount Received by Organization's Agency")
-        } else if (dataShown === 4){
+        } else if (dataShown===4){
           $(this).html("View Amount Per Borough");
           $(".slide-container").remove();
           createLineGraphs("data1");
-          dataShown = 1;
+          dataShown=1;
           $("#custom-chart-title").html("Funds Received by Organization's Borough(s)")
         };
       });
 
-      userList = new List('budgets',options,[]);
+      userList=new List('budgets',options,[]);
       createLineGraphs("data1")
 
       //End of success
@@ -551,16 +559,22 @@ $(document).ready(function(){
       resizeSearch();
       
       $(window).resize(function() {
-        if ($(window).width() <= 700){
-          stackedLine.options.scales.xAxes[0].ticks.minor.fontSize = 8;
-          stackedLine.options.scales.xAxes[0].ticks.fontSize = 8;
-          stackedLine.options.scales.yAxes[0].ticks.minor.fontSize = 8;
-          stackedLine.options.scales.yAxes[0].ticks.fontSize = 8;
+        if ($(window).width()<=700){
+          stackedLine.options.tooltips.titleFontSize=8;
+          stackedLine.options.tooltips.bodyFontSize=8;
+          stackedLine.options.tooltips.footerFontSize=8;
+          stackedLine.options.scales.xAxes[0].ticks.minor.fontSize=8;
+          stackedLine.options.scales.xAxes[0].ticks.fontSize=8;
+          stackedLine.options.scales.yAxes[0].ticks.minor.fontSize=8;
+          stackedLine.options.scales.yAxes[0].ticks.fontSize=8;
         } else {
-          stackedLine.options.scales.xAxes[0].ticks.minor.fontSize = 12;
-          stackedLine.options.scales.xAxes[0].ticks.fontSize = 12;
-          stackedLine.options.scales.yAxes[0].ticks.minor.fontSize = 12;
-          stackedLine.options.scales.yAxes[0].ticks.fontSize = 12;
+          stackedLine.options.tooltips.titleFontSize=12;
+          stackedLine.options.tooltips.bodyFontSize=12;
+          stackedLine.options.tooltips.footerFontSize=12;
+          stackedLine.options.scales.xAxes[0].ticks.minor.fontSize=12;
+          stackedLine.options.scales.xAxes[0].ticks.fontSize=12;
+          stackedLine.options.scales.yAxes[0].ticks.minor.fontSize=12;
+          stackedLine.options.scales.yAxes[0].ticks.fontSize=12;
         }
         stackedLine.update();
         resizeSearch();
@@ -572,32 +586,32 @@ $(document).ready(function(){
   function resizeSearch(){
     let searchHeight;
     if($("body").height() < $(window).height()){
-      searchHeight= $(window).height()+"px";
+      searchHeight=$(window).height()+"px";
       $("body").css("overflow-y","hidden");
     } else {
-      searchHeight = $("body").height()+parseInt($("body").css("margin-top").slice(0,-2))+parseInt($("body").css("margin-bottom").slice(0,-2))+"px";
+      searchHeight=$("body").height()+parseInt($("body").css("margin-top").slice(0,-2))+parseInt($("body").css("margin-bottom").slice(0,-2))+"px";
       $("body").css("overflow-y","visible");
     }
     $("#search-container").css({"left": "-"+$("#search-container").width()+"px","height":searchHeight});
   }
   //Prototyping functions
-  Array.prototype.extractSubSet = function(criteria, criteriaValue){
+  Array.prototype.extractSubSet=function(criteria, criteriaValue){
     let subCriteria;
-    criteria && criteriaValue ? subCriteria = this.filter(function(fund){return fund[criteria].trim() === criteriaValue}) : subCriteria = this.filter(function(fund){return fund[criteria].trim() === "" || fund[criteria] == null});
+    criteria&&criteriaValue? subCriteria=this.filter(function(fund){return fund[criteria].trim() === criteriaValue}) : subCriteria=this.filter(function(fund){return fund[criteria].trim() === "" || fund[criteria] == null});
     return subCriteria ;
   };
   //titleize words
-  String.prototype.titleize = function() {
-    let words = this.split(" ");
-    let word_count = words.length;
+  String.prototype.titleize=function() {
+    let words=this.split(" ");
+    let word_count=words.length;
   
-    for(let i = 0; i < word_count; i++){
-      i === 0?words[i] = words[i].capitalize():"";
+    for(let i=0; i < word_count; i++){
+      i === 0?words[i]=words[i].capitalize():"";
     };
     return words.join(" ");
   };
-  String.prototype.capitalize = function() {
-    let word = this;
+  String.prototype.capitalize=function() {
+    let word=this;
     if (word[0] && word.toUpperCase){
       return word[0].toUpperCase() + word.slice(1);
     };
