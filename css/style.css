@@ -62,9 +62,10 @@ body{background-color:#F9F9F9;font-family:'Open Sans',sans-serif;overflow-y:hidd
 
 @media screen and (max-width:700px){
   .yearNumber{font-size:50px;}
-  #search-bar{width:99%;}
-    #search-bar .search-fields{margin:3.5px;height:15px;}
-    table#funds{width:99%;}
+  #search-container,#search-bar .search-fields{font-size:12px;}
+    #search-bar{width:99%;}
+      #search-bar .search-fields{margin:3.5px;height:15px;}
+      table#funds{width:99%;}
   #agency-year-slider{height:8px;}
   #agency-year-slider::-webkit-slider-thumb{height:16px;width:10px;}
   #agency-year-slider::-moz-range-thumb{height:16px;width:10px;}
