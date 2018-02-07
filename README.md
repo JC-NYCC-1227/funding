@@ -10,7 +10,7 @@ Features currently include:
 * Restrict users from searching blank fields or unchecking all boxes
 * Sort results by ascending or descending value in: Organization's Name, $ Amount, Council Member, or Source
 * Clicking an organization's name in the results will open a small window with additional information on that fund
-* Browser responsiver
+* Browser responsive
 * Mobile friendly (sort of)
 
 Currently there are 4 interchangeable chart or data visualizations:
