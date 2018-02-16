@@ -76,7 +76,7 @@ $(document).ready(function(){
             fundedYears[fund["fiscal_year"]]["queens_amount"]+=parseInt(fund["amount"])
             fundedYears[fund["fiscal_year"]][fund["borough"].toLowerCase().trim()] += 1;
             break;
-        }
+        };
       });
 
       for (let year in fundedYears){
@@ -284,8 +284,8 @@ $(document).ready(function(){
           stackedLine = new Chart(chart, data1);
         } else if (dataset === "data2"){
           stackedLine = new Chart(chart, data2);
-        }
-      }
+        };
+      };
 
       let updateAgencyYear = function(year,object,criteria){
         let color,backgroundColor,data3,agencies = [];
@@ -434,7 +434,7 @@ $(document).ready(function(){
           htmlSearchTerms[htmlSearchTerms.length] = htmlSearchTerms[htmlSearchTerms.length-1];
           htmlSearchTerms[htmlSearchTerms.length-2] = "and";
           htmlSearchTerms = htmlSearchTerms.join(" ");
-        }
+        };
         newSearch=response.filter(function(budget){
           let matchCriteria = 0;
           for(let j=0; j<searchArray.length; j++){
@@ -496,7 +496,7 @@ $(document).ready(function(){
         if($("#advanced-options input:checked").length !== 0){
           $(this).prop("checked")?$("div#search-field-container").prepend('<input class="search-fields" id="'+$(this).val()+'" type="text" placeholder="'+$(this).val().split("_").join(" ").titleize()+'" required>'):$("#"+$(this).val()).remove();
         } else {
-          alert("You need at least one search term.")
+          alert("You need at least one search term.");
           $(this).prop("checked",true);
         };
       });
@@ -515,7 +515,7 @@ $(document).ready(function(){
           $(this).html("View Funds to Agencies");
           createLineGraphs("data2");
           dataShown = 2;
-          $("#custom-chart-title").html("Amount Received by Organization's Borough(s)")
+          $("#custom-chart-title").html("Amount Received by Organization's Borough(s)");
         } else if (dataShown === 2){
           $(this).html("View Amount Per Agency");
           $("#agency-year-slider").off().val("2009");
@@ -527,7 +527,7 @@ $(document).ready(function(){
             $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
           });
           dataShown = 3;
-          $("#custom-chart-title").html("Funds Received by Organization's Agency")
+          $("#custom-chart-title").html("Funds Received by Organization's Agency");
           $("#agency-year-slider").show();
         } else if (dataShown === 3){
           $(this).html("View Funds to Boroughs");
@@ -539,18 +539,18 @@ $(document).ready(function(){
             $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
           });
           dataShown = 4;
-          $("#custom-chart-title").html("Amount Received by Organization's Agency")
+          $("#custom-chart-title").html("Amount Received by Organization's Agency");
         } else if (dataShown === 4){
           $(this).html("View Amount Per Borough");
           $(".slide-container").remove();
           createLineGraphs("data1");
           dataShown = 1;
-          $("#custom-chart-title").html("Funds Received by Organization's Borough(s)")
+          $("#custom-chart-title").html("Funds Received by Organization's Borough(s)");
         };
       });
 
       userList = new List('budgets',options,[]);
-      createLineGraphs("data1")
+      createLineGraphs("data1");
 
       //End of success
       $("body").css({"position":"static","overflow-y":"visible"});
@@ -575,7 +575,7 @@ $(document).ready(function(){
           stackedLine.options.scales.xAxes[0].ticks.fontSize = 12;
           stackedLine.options.scales.yAxes[0].ticks.minor.fontSize = 12;
           stackedLine.options.scales.yAxes[0].ticks.fontSize = 12;
-        }
+        };
         stackedLine.update();
         resizeSearch();
       });
@@ -591,20 +591,19 @@ $(document).ready(function(){
     } else {
       searchHeight = $("body").height()+parseInt($("body").css("margin-top").slice(0,-2))+parseInt($("body").css("margin-bottom").slice(0,-2))+"px";
       $("body").css("overflow-y","visible");
-    }
+    };
     $("#search-container").css({"left": "-"+$("#search-container").width()+"px","height":searchHeight});
-  }
+  };
   //Prototyping functions
   Array.prototype.extractSubSet = function(criteria, criteriaValue){
     let subCriteria;
     criteria && criteriaValue ? subCriteria = this.filter(function(fund){return fund[criteria].trim() === criteriaValue}) : subCriteria = this.filter(function(fund){return fund[criteria].trim() === "" || fund[criteria] == null});
-    return subCriteria ;
+    return subCriteria;
   };
   //titleize words
   String.prototype.titleize = function() {
     let words = this.split(" ");
     let word_count = words.length;
-  
     for(let i = 0; i < word_count; i++){
       i === 0?words[i] = words[i].capitalize():"";
     };
@@ -618,6 +617,6 @@ $(document).ready(function(){
   };
   //leaving mobile detection jQuery just in case
   if (/Mobi/.test(navigator.userAgent)) {
-  }
+  };
 //End document ready
 });

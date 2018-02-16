@@ -11,12 +11,15 @@ body{background-color:#F9F9F9;font-family:'Open Sans',sans-serif;overflow-y:hidd
   .lds-double-ring{width:200px !important;height:200px !important;-webkit-transform:translate(-100px,-100px) scale(1) translate(100px,100px);transform:translate(-100px,-100px) scale(1) translate(100px,100px);}
   
   #not-loader{visibility:hidden}
-    #header img{max-width:500px;min-width:300px;width:30%;}
+    #header a,#header div{display:inline-block;vertical-align:middle;}
+    #header a{width:25%;margin-right:15px;min-width:150px;}
+    #header div{font-size:20px;}
+    #header a img{width:100%;}
     #options{height:50px;margin:10px auto;position:relative;width:100%;z-index:2}
       #change{background-color:#2F56A6;color:white;cursor:pointer;font-family:OpenSans,sans-serif;font-size:13px;height:30px;right:0;}
       #search-menu-button{background-color:#2F56A6;color:white;cursor:pointer;font-family:OpenSans,sans-serif;font-size:13px;height:30px;left:-15px;text-align:right;}
 
-    #search-container{background-color:grey;display:none;font-size:14px;max-width:700px;overflow-y:scroll;position:absolute;top:0;width:100%;z-index:2;}
+    #search-container{background-color:grey;border-right:solid 1px black;display:none;font-size:14px;max-width:700px;overflow-y:scroll;position:absolute;top:0;width:100%;z-index:2;}
       #close-menu{text-align:right;}
         #close-menu span{background-color:#D05D4E;color:white;cursor:pointer;padding:5px}
       #search-bar{margin:10px auto 20px;text-align:center;width:85%;max-width:1150px;}
@@ -59,13 +62,18 @@ body{background-color:#F9F9F9;font-family:'Open Sans',sans-serif;overflow-y:hidd
         #agency-year-slider:active{cursor:grabbing;cursor:-moz-grabbing;cursor:-webkit-grabbing;opacity:1;}
         #agency-year-slider::-webkit-slider-thumb{background:#82C91E;height:30px;-webkit-appearance:none;width:15px;}
         #agency-year-slider::-moz-range-thumb{background:#82C91E;height:15px;width:50px;}
-
+@media screen and (max-width:1280px){
+  #header div{font-size:15px;}
+}
 @media screen and (max-width:700px){
+  button,#header div{font-size:12px!important;}
   .yearNumber{font-size:50px;}
+  #search-container{border-right:none;}
   #search-container,#search-bar .search-fields{font-size:12px;}
     #search-bar{width:99%;}
       #search-bar .search-fields{margin:3.5px;height:15px;}
       table#funds{width:99%;}
+  #custom-chart-title {font-size: 15px;}
   #agency-year-slider{height:8px;}
   #agency-year-slider::-webkit-slider-thumb{height:16px;width:10px;}
   #agency-year-slider::-moz-range-thumb{height:16px;width:10px;}
