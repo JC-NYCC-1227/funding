@@ -13,7 +13,7 @@
 <body>
   <div id="loader">
     <div class="lds-css ng-scope">
-      <div style="width:100%;height:100%" class="lds-double-ring">
+      <div class="lds-double-ring">
         <div></div>
         <div></div>
       </div>
@@ -25,30 +25,18 @@
       <div><em>Discretionary Funding</em></div>
     </div>
     <div id="options">
-      <button id="search-menu-button">Search&nbsp;&nbsp;<i class="fa fa-angle-double-right"></i></button>
       <button id="change">View Amount Per Borough</button>
+      <button id="search-menu-button">Search&nbsp;<i class="fa fa-search"></i></button>
     </div>
     <h3 id="custom-chart-title">Funds Received by Organization's Borough(s)</h3>
-    <div id="chart-container"  style="height:auto;margin:0 auto;width:90vw;">
+    <div id="chart-container">
       <span class="yearNumber"></span>
       <canvas id="funding-chart" width=auto height=auto></canvas>
     </div>
     <div id="search-container">
       <div id="close-menu"><span>Close</span></div>
       <div id="search-bar">
-        <div id="advanced-options">
-          <label><input type="checkbox" value="address">Address</label>
-          <label><input type="checkbox" value="amount">Amount</label>
-          <label><input type="checkbox" value="borough">Borough</label>
-          <label><input type="checkbox" value="city">City</label>
-          <label><input type="checkbox" value="council_district">Council District</label>
-          <br>
-          <label><input type="checkbox" value="council_member">Council Member</label>
-          <label><input type="checkbox" value="fiscal_year" checked>Fiscal Year</label>
-          <label><input type="checkbox" value="legal_name_of_organization" checked>Organzation</label>
-          <label><input type="checkbox" value="source" checked>Source</label>
-          <label><input type="checkbox" value="postcode">Zip Code</label>
-        </div>
+        
         <form id="search-form" class="form">
           <div id="search-field-container">
             <input class="search-fields" id="fiscal_year" type="number" min="2000" placeholder="Fiscal Year" required/>
@@ -59,6 +47,26 @@
             <button class="search-button" type="submit">Search&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i></button>
           </div>
         </form>
+        <div id="advanced-options">
+          <table>
+            <tr>
+              <td><label><input type="checkbox" value="address">Address</label></td>
+              <td><label><input type="checkbox" value="amount">Amount</label></td>
+              <td><label><input type="checkbox" value="borough">Borough</label></td>
+              <td><label><input type="checkbox" value="city">City</label></td>
+            </tr>
+            <tr>
+              <td><label><input type="checkbox" value="council_district">Council District</label></td>
+              <td><label><input type="checkbox" value="council_member">Council Member</label></td>
+              <td><label><input type="checkbox" value="fiscal_year" checked>Fiscal Year</label></td>
+              <td><label><input type="checkbox" value="legal_name_of_organization" checked>Organzation</label></td>
+            </tr>
+            <tr>
+              <td><label><input type="checkbox" value="source" checked>Source</label></td>
+              <td><label><input type="checkbox" value="postcode">Zip Code</label></td>
+            </tr>
+          </table>
+        </div>
       </div>
       <div id="search-results"></div>
       <div id="budgets">
@@ -77,7 +85,7 @@
         </table>
         <ul class="pagination paginationBottom"></ul>
       </div>
-      <div style="display:none" id="modal" data-iziModal-title="" data-iziModal-subtitle="">
+      <div id="modal" data-iziModal-title="" data-iziModal-subtitle="">
         <p class="full-address"></p>
         <p class="purpose"></p>
         <p class="additional-details"></p>

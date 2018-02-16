@@ -501,8 +501,13 @@ $(document).ready(function(){
         };
       });
       $("#search-menu-button").click(function(){
-        $("#search-container").show().animate({"left":"0px"},500);
-        resizeSearch();
+        if($("#search-container").is(":visible")){
+          $("#search-container").animate({"left":"-"+$("#search-container").width()+"px"},500);
+          setTimeout(function(){$("#search-container").hide()},500);
+        } else {
+          $("#search-container").show().animate({"left":"0px"},500);
+          resizeSearch();
+        };
       });
       $("#close-menu span").click(function(){
         $("#search-container").animate({"left":"-"+$("#search-container").width()+"px"},500);
@@ -511,41 +516,46 @@ $(document).ready(function(){
       $("#change").click(function(e){
         e.preventDefault();
         stackedLine.destroy();
-        if (dataShown === 1){
-          $(this).html("View Funds to Agencies");
-          createLineGraphs("data2");
-          dataShown = 2;
-          $("#custom-chart-title").html("Amount Received by Organization's Borough(s)");
-        } else if (dataShown === 2){
-          $(this).html("View Amount Per Agency");
-          $("#agency-year-slider").off().val("2009");
-          $("#chart-container").prepend('<div class="slide-container"><input type="range" min="2009" max="'+stackedLine.data.labels.slice(-2,-1)+'" value="2009" step="1" id="agency-year-slider" title="Move the slider to view data from other years"></div>');
-          updateAgencyYear("2009",fundedYears,"number of funds");
-          $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
-          $("#agency-year-slider").on("input", function(e){
-            updateAgencyYear($(this).val(),fundedYears,"number of funds");
-            $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
-          });
-          dataShown = 3;
-          $("#custom-chart-title").html("Funds Received by Organization's Agency");
-          $("#agency-year-slider").show();
-        } else if (dataShown === 3){
-          $(this).html("View Funds to Boroughs");
-          $("#agency-year-slider").off().val("2009");
-          updateAgencyYear("2009",fundedYears,"amount funded");
-          $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
-          $("#agency-year-slider").on("input", function(e){
-            updateAgencyYear($(this).val(),fundedYears,"amount funded");
-            $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
-          });
-          dataShown = 4;
-          $("#custom-chart-title").html("Amount Received by Organization's Agency");
-        } else if (dataShown === 4){
-          $(this).html("View Amount Per Borough");
-          $(".slide-container").remove();
-          createLineGraphs("data1");
-          dataShown = 1;
-          $("#custom-chart-title").html("Funds Received by Organization's Borough(s)");
+        switch(dataShown){
+          case 1:
+            $(this).html("View Funds to Agencies");
+            createLineGraphs("data2");
+            dataShown = 2;
+            $("#custom-chart-title").html("Amount Received by Organization's Borough(s)");
+          break;
+          case 2:
+            $(this).html("View Amount Per Agency");
+            $("#agency-year-slider").off().val("2009");
+            $("#chart-container").prepend('<div class="slide-container"><input type="range" min="2009" max="'+stackedLine.data.labels.slice(-2,-1)+'" value="2009" step="1" id="agency-year-slider" title="Move the slider to view data from other years"></div>');
+            updateAgencyYear("2009",fundedYears,"number of funds");
+            $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
+            $("#agency-year-slider").on("input", function(e){
+              updateAgencyYear($(this).val(),fundedYears,"number of funds");
+              $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
+            });
+            dataShown = 3;
+            $("#custom-chart-title").html("Funds Received by Organization's Agency");
+            $("#agency-year-slider").show();
+          break;
+          case 3:
+            $(this).html("View Funds to Boroughs");
+            $("#agency-year-slider").off().val("2009");
+            updateAgencyYear("2009",fundedYears,"amount funded");
+            $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
+            $("#agency-year-slider").on("input", function(e){
+              updateAgencyYear($(this).val(),fundedYears,"amount funded");
+              $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
+            });
+            dataShown = 4;
+            $("#custom-chart-title").html("Amount Received by Organization's Agency");
+          break;
+          case 4:
+            $(this).html("View Amount Per Borough");
+            $(".slide-container").remove();
+            createLineGraphs("data1");
+            dataShown = 1;
+            $("#custom-chart-title").html("Funds Received by Organization's Borough(s)");
+          break;
         };
       });
 
