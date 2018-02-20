@@ -69,10 +69,12 @@ body{background-color:#F9F9F9;font-family:'Open Sans',sans-serif;overflow-y:hidd
   #header div{font-size:15px;}
 }
 @media screen and (max-width:700px){
-  button,#header div{font-size:12px!important;}
+  .iziModal .iziModal-header-title{font-size:16px!important;}
+  .iziModal .iziModal-header-subtitle{font-size:12px!important;}
+  .iziModal .iziModal-content{font-size:14px!important;}
+  button,#header div,#search-container,#search-bar .search-fields{font-size:12px!important;}
   .yearNumber{font-size:50px;}
   #search-container{border-right:none;}
-  #search-container,#search-bar .search-fields{font-size:12px;}
     #search-bar{width:99%;}
       /* #search-bar .search-fields{margin:3.5px .5%;height:15px;} */
       table#funds{width:99%;}
@@ -80,4 +82,11 @@ body{background-color:#F9F9F9;font-family:'Open Sans',sans-serif;overflow-y:hidd
   #agency-year-slider{height:8px;}
   #agency-year-slider::-webkit-slider-thumb{height:16px;width:10px;}
   #agency-year-slider::-moz-range-thumb{height:16px;width:10px;}
+}
+@media screen and (max-width:480px){
+  .iziModal .iziModal-header-title{font-size:12px!important;}
+  .iziModal .iziModal-header-subtitle{font-size:11px!important;}
+  .iziModal .iziModal-content{font-size:10px!important;}
+  #custom-chart-title{font-size: 13px;}
+  button,#header div,#search-container,#search-bar .search-fields{font-size:10px!important;}
 }
