@@ -19,14 +19,15 @@ body{background-color:#F9F9F9;font-family:'Open Sans',sans-serif;overflow-y:hidd
       #change{background-color:#2F56A6;color:white;cursor:pointer;font-family:OpenSans,sans-serif;font-size:13px;height:30px;right:0;}
       #search-menu-button{background-color:#2F56A6;color:white;cursor:pointer;font-family:OpenSans,sans-serif;font-size:13px;height:30px;left:-15px;text-align:right;}
 
-    #search-container{background-color:grey;border-right:solid 1px black;display:none;font-size:14px;max-width:700px;overflow-y:scroll;position:absolute;top:0;width:100%;z-index:2;}
+    #search-container{background-color:#F7F7F7;border-right:solid 1px #DDD;display:none;font-size:14px;max-width:700px;overflow-y:scroll;position:absolute;top:0;width:100%;z-index:2;}
       #close-menu{text-align:right;}
         #close-menu span{background-color:#D05D4E;color:white;cursor:pointer;padding:5px;}
-      #search-bar{margin:10px auto 20px;width:85%;max-width:1150px;}
+      #search-bar{margin:10px auto 20px;max-width:1150px;}
       /* #search-bar table{width:100%;} */
       #search-bar .form{width:100%;display:inline-block;}
-      #search-bar .search-fields,#search-bar button{width:100%;margin:5px 1%;font-family:'Open Sans',sans-serif !important;font-size:14px;position:relative;}
-      #search-bar .search-fields{float:left;width:29%;}
+      #search-bar select{background-image: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'><path fill='#444' d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>");background-position: 100% 50%;background-repeat: no-repeat;-moz-appearance: none;-ms-appearance: none;-webkit-appearance: none;border-radius: 0px;-moz-border-radius: 0px;-ms-border-radius: 0px;-webkit-border-radius: 0px;}
+      #search-bar .search-fields,#search-bar button{border:solid 1px black;font-family:'Open Sans',sans-serif !important;font-size:14px;position:relative;width:100%;}
+      /* #search-bar .search-fields{float:left;width:29%;} */
       #search-field-container,#button-container{float:left;}
       #search-field-container{margin-bottom:10px;width:75%;}
       #button-container{width:25%;}
@@ -34,7 +35,7 @@ body{background-color:#F9F9F9;font-family:'Open Sans',sans-serif;overflow-y:hidd
       .search-button{background-color:#2F56A6;border:none;;border-bottom:2px solid #23417D;border-left:2px solid #228AE6;border-right:2px solid #23417D;border-top:2px solid #228AE6;color:white;cursor:pointer;}
       #search-results{width:85%;margin:0 auto;max-width:1150px;}
 
-      table#funds{background-color:#fff;border-collapse:collapse;box-shadow:10px 10px 10px rgba(0,0,0,.2);width:85%;border-spacing:10px;margin:0 auto;max-width:1150px;}
+      table#funds{background-color:#fff;border-collapse:collapse;width:95%;border-spacing:10px;margin:0 auto;max-width:1150px;}
       table#funds thead tr{background-color:#F59F00;}
       table#funds thead tr td:hover{background-color:rgb(194,126,0);}
       table#funds thead tr td span{text-decoration:underline;}

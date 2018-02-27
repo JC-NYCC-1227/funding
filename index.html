@@ -9,23 +9,27 @@
   <link rel="stylesheet" href="css/opensans.min.css">
   <link rel="stylesheet" href="css/izModal.min.css">
   <link rel="stylesheet" href="css/animate.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
-  <!-- <meta property="og:url"          content="http://budget.council.nyc/" /> -->
-  <meta property="og:type"         content="website" />
-  <meta property="og:title"        content="Discretionary Funding" />
-  <meta property="og:site_name"    content="NYC Council"/>
-  <meta property="og:description"  content="Explore NYC&#8217;s Discretionary Funding" />
-  <!-- <meta property="og:image"        content="http://budget.council.nyc/budget-vis.jpg"/> -->
+  <!-- <meta property="og:url" content="http://budget.council.nyc/" /> -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Discretionary Funding" />
+  <meta property="og:site_name" content="NYC Council"/>
+  <meta property="og:description" content="Explore NYC&#8217;s Discretionary Funding" />
+  <!-- <meta property="og:image" content="http://budget.council.nyc/budget-vis.jpg"/> -->
 
-  <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:site"        content="@NYCCouncil" />
-  <meta name="twitter:creator"     content="@NYCCouncil" />
-  <meta name="twitter:title"       content="#NYCCLabs" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@NYCCouncil" />
+  <meta name="twitter:creator" content="@NYCCouncil" />
+  <meta name="twitter:title" content="#NYCCLabs" />
   <meta name="twitter:description" content="Explore NYC&#8217;s Discretionary Funding" />
-  <!-- <meta name="twitter:image"       content="http://budget.council.nyc/budget-vis.jpg" /> -->
+  <!-- <meta name="twitter:image" content="http://budget.council.nyc/budget-vis.jpg" /> -->
 </head>
 <body>
-  <div id="loader">
+  <div class="container-fluid">
+
+
+  <div id="loader" class="row">
     <div class="lds-css ng-scope">
       <div class="lds-double-ring">
         <div></div>
@@ -33,58 +37,50 @@
       </div>
     </div>
   </div>
-  <div id="not-loader">
-    <div id="header">
+  <div id="not-loader" class="row">
+    <div id="header" class="col-12">
       <a href="#"><img src="img/nycc-wordmark-blue.png" alt="New York City Counil"></a>
       <!-- <a href="#"><img src="img/nycc-seal.png" alt="New York City Council">New York City Council</a> -->
       <div><em>Discretionary Funding</em></div>
     </div>
-    <div id="options">
+    <small class="col-12"><em>Made with <a href="https://data.cityofnewyork.us/City-Government/New-York-City-Council-Discretionary-Funding/4d7f-74pe" target="_blank"><strong>open data</strong></a> from the <a href="https://council.nyc.gov/" target="_blank"><strong>New York City Council</strong></a></em></small>
+    <div id="options" class="col-12">
       <button id="change">View Amount Per Borough</button>
       <button id="search-menu-button">Search&nbsp;<i class="fa fa-search"></i></button>
     </div>
-    <h3 id="custom-chart-title">Funds Received by Organization's Borough(s)</h3>
+    <h3 id="custom-chart-title" class="col-12">Funds Received by Organization's Borough(s)</h3>
     <div id="chart-container">
       <span class="yearNumber"></span>
       <canvas id="funding-chart" width=auto height=auto></canvas>
     </div>
-    <div id="search-container">
-      <div id="close-menu"><span>Close</span></div>
-      <div id="search-bar">
-        
-        <form id="search-form" class="form">
-          <div id="search-field-container">
-            <input class="search-fields" id="fiscal_year" type="number" min="2000" placeholder="Fiscal Year" required/>
-            <input class="search-fields" id="legal_name_of_organization" type="text" placeholder="Organization" required/>
-            <input class="search-fields" id="source" type="text" placeholder="Source" required/>
+    <div id="search-container" class="col-12">
+      <div id="close-menu" class="col-12"><span style="margin-right:-30px;">Close</span></div>
+      <div id="search-bar" class="col-12">
+        <form id="search-form" class="form col-12 row">
+          <div id="search-field-container" class="col-9 row">
+            <div class="col-lg-4 col-md-6 col-12"><input class="search-fields" id="fiscal_year" type="number" min="2000" placeholder="Fiscal Year"/></div>
+            <div class="col-lg-4 col-md-6 col-12"><input class="search-fields" id="legal_name_of_organization" type="text" placeholder="Organization"/></div>
+            <div class="col-lg-4 col-md-6 col-12"><input class="search-fields" id="source" type="text" placeholder="Source"/></div>
           </div>
-          <div id="button-container">
+          <div id="button-container" class="col-3">
             <button class="search-button" type="submit">Search&nbsp;&nbsp;<i class="fa fa-search" aria-hidden="true"></i></button>
           </div>
         </form>
-        <div id="advanced-options">
-          <table>
-            <tr>
-              <td><label><input type="checkbox" value="address">Address</label></td>
-              <td><label><input type="checkbox" value="amount">Amount</label></td>
-              <td><label><input type="checkbox" value="borough">Borough</label></td>
-              <td><label><input type="checkbox" value="city">City</label></td>
-            </tr>
-            <tr>
-              <td><label><input type="checkbox" value="council_district">Council District</label></td>
-              <td><label><input type="checkbox" value="council_member">Council Member</label></td>
-              <td><label><input type="checkbox" value="fiscal_year" checked>Fiscal Year</label></td>
-            </tr>
-            <tr>
-              <td><label><input type="checkbox" value="legal_name_of_organization" checked>Organzation</label></td>
-              <td><label><input type="checkbox" value="source" checked>Source</label></td>
-              <td><label><input type="checkbox" value="postcode">Zip Code</label></td>
-            </tr>
-          </table>
+        <div id="advanced-options" class="col-12 row">
+          <div class="col-lg-3 col-4"><label><input type="checkbox" value="address">Address</label></div>
+          <div class="col-lg-3 col-4"><label><input type="checkbox" value="amount">Amount</label></div>
+          <div class="col-lg-3 col-4"><label><input type="checkbox" value="borough">Borough</label></div>
+          <!-- <div class="col-lg-3 col-4"><label><input type="checkbox" value="council_district">Council District</label></div> -->
+          <div class="col-lg-3 col-4"><label><input type="checkbox" value="city">City</label></div>
+          <div class="col-lg-3 col-4"><label><input type="checkbox" value="council_member">Council Member</label></div>
+          <div class="col-lg-3 col-4"><label><input type="checkbox" value="fiscal_year" checked>Fiscal Year</label></div>
+          <div class="col-lg-3 col-4"><label><input type="checkbox" value="legal_name_of_organization" checked>Organzation</label></div>
+          <div class="col-lg-3 col-4"><label><input type="checkbox" value="source" checked>Source</label></div>
+          <div class="col-lg-3 col-4"><label><input type="checkbox" value="postcode">Zip Code</label></div>
         </div>
       </div>
-      <div id="search-results"></div>
-      <div id="budgets">
+      <div id="search-results" class="col-12"></div>
+      <div id="budgets" class="col-12">
         <ul class="pagination paginationTop"></ul>
         <table id="funds" border="1|0">
           <thead>
@@ -107,11 +103,16 @@
       </div>
     </div>
   </div>
+
+
+
+  </div>
   <script src="js/jquery-3.2.1.min.js"></script>
   <script src="js/fontawesome.min.js"></script>
   <script src="js/izModal.min.js"></script>
   <script src="js/list.1.5.0.min.js"></script>
   <script src="js/chartjs.bundle.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>

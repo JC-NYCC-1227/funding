@@ -15,9 +15,11 @@ $(document).ready(function(){
     //all functions and event listeners in success function to use data and make searching and sorting much faster without hitting the API everytime.
     // values NOT used: bbl, bin, census_tract, community_board, ein, latitude, longitude, mocs_id, nta
     success:function(globalData){
-      let sources,newSearch,sortColumn,toggleValue,dataShown=1,fundedYears={},agencies={},bronx={"budget_by_area":[],"yearly_amount":[]}, brooklyn={"budget_by_area":[],"yearly_amount":[]}, manhattan={"budget_by_area":[],"yearly_amount":[]}, statenIsland={"budget_by_area":[],"yearly_amount":[]}, queens={"budget_by_area":[],"yearly_amount":[]}, citywide = {"budget_by_area":[],"yearly_amount":[]};
+      let sources,newSearch,sortColumn,toggleValue,dataShown=1,members=[],city=[],fundedYears={},agencies={},bronx={"budget_by_area":[],"yearly_amount":[]}, brooklyn={"budget_by_area":[],"yearly_amount":[]}, manhattan={"budget_by_area":[],"yearly_amount":[]}, statenIsland={"budget_by_area":[],"yearly_amount":[]}, queens={"budget_by_area":[],"yearly_amount":[]}, citywide = {"budget_by_area":[],"yearly_amount":[]};
 
-      //_______________________________________TABULAR DATA SETUP_______________________________________//
+/*--------------------------------------------------------------------------------------------------|
+|                                         TABULAR DATA SETUP                                        |
+|--------------------------------------------------------------------------------------------------*/
       globalData.forEach(function(fund,index){
         //existence of keys not always consistent with every record
         fund.hasOwnProperty("address")?"":globalData[index]["address"]="";
@@ -128,119 +130,85 @@ $(document).ready(function(){
         }]
       };
       
-//_______________________________________DATA VISUALIZATION SETUP_______________________________________//
-      let stackedLine,chart = $("#funding-chart"),labels = Object.keys(fundedYears);
+/*--------------------------------------------------------------------------------------------------|
+|                                    DATA VISUALIZATION SETUP                                       |
+|--------------------------------------------------------------------------------------------------*/
+      let stackedLine,boroughYearTotal=[],chart = $("#funding-chart"),labels = Object.keys(fundedYears);
+      //Remove blank key/Funds with no years
       labels.pop();
-      labels.push("Unknown");
+      bronx["yearly_amount"].pop();
+      brooklyn["yearly_amount"].pop();
+      manhattan["yearly_amount"].pop();
+      statenIsland["yearly_amount"].pop();
+      queens["yearly_amount"].pop();
+      citywide["yearly_amount"].pop();
+      for(let h = 0; h < labels.length; h++){
+        boroughYearTotal.push(bronx["yearly_amount"][h]+brooklyn["yearly_amount"][h]+manhattan["yearly_amount"][h]+statenIsland["yearly_amount"][h]+queens["yearly_amount"][h]+citywide["yearly_amount"][h]);
+      };
       let createLineGraphs = function(dataset){
-        let data1 = {
-          type: "line",
-          data:{
-            labels: labels,
-            datasets:
-              [{
-                label:"Bronx",
-                borderColor: "rgba(47,86,166,0.5)",
-                backgroundColor: "rgba(47,86,166,0.1)",
-                data: bronx["budget_by_area"]
-              },
-              {
-                label:"Brooklyn",
-                borderColor:"rgba(208,93,78,0.5)",
-                backgroundColor:"rgba(208,93,78,0.1)",
-                data: brooklyn["budget_by_area"]
-              },
-              {
-                label:"Manhattan",
-                borderColor:"rgba(34,138,230,0.5)",
-                backgroundColor:"rgba(34,138,230,0.1)",
-                data: manhattan["budget_by_area"]
-              },
-              {
-                label:"Staten Island",
-                borderColor:"rgba(18,184,134,0.5)",
-                backgroundColor:"rgba(18,184,134,0.1)",
-                data: statenIsland["budget_by_area"]
-              },
-              {
-                label:"Queens",
-                borderColor:"rgba(245,159,0,0.5)",
-                backgroundColor:"rgba(245,159,0,0.1)",
-                data: queens["budget_by_area"]
-              },
-              {
-                label:"Citywide",
-                borderColor:"rgba(190,75,219,0.5)",
-                backgroundColor:"rgba(190,75,219,0.1)",
-                data: citywide["budget_by_area"]
-              }]
-          },
-          options: {
-            scales: {
-              xAxes:[{
-                ticks:{
-                  autoSkip:false,
-                  fontSize: $(window).width()<=700?8:12
-                }
-              }],
-              yAxes: [{
-                ticks:{
-                  fontSize: $(window).width()<=700?8:12
-                }
-              }]
-            },
-            tooltips:{
-              titleFontSize: $(window).width()<=700?8:12,
-              bodyFontSize: $(window).width()<=700?8:12,
-              footerFontSize: $(window).width()<=700?8:12,
-              mode: "index",
-              intersect: false
-            }
-          }
-        };
         let data2 = {
-          type: "line",
+          type: "bar",
           data: {
             labels: labels,
             datasets:
               [{
                 label:"Bronx",
-                borderColor: "rgba(47,86,166,0.5)",
-                backgroundColor: "rgba(47,86,166,0.1)",
-                data: bronx["yearly_amount"]
+                borderColor: "rgba(47,86,166,1)",
+                backgroundColor: "rgba(47,86,166,.3)",
+                // backgroundColor: "rgba(47,86,166,0.1)",
+                data: bronx["yearly_amount"],
+                type:"line"
               },
               {
                 label:"Brooklyn",
-                borderColor:"rgba(208,93,78,0.5)",
-                backgroundColor:"rgba(208,93,78,0.1)",
-                data: brooklyn["yearly_amount"]
+                borderColor:"rgba(208,93,78,1)",
+                backgroundColor:"rgba(208,93,78,.3)",
+                // backgroundColor:"rgba(208,93,78,0.1)",
+                data: brooklyn["yearly_amount"],
+                type:"line"
               },
               {
                 label:"Manhattan",
-                borderColor:"rgba(34,138,230,0.5)",
-                backgroundColor:"rgba(34,138,230,0.1)",
-                data: manhattan["yearly_amount"]
+                borderColor:"rgba(34,138,230,1)",
+                backgroundColor:"rgba(34,138,230,.3)",
+                // backgroundColor:"rgba(34,138,230,0.1)",
+                data: manhattan["yearly_amount"],
+                type:"line"
               },
               {
                 label:"Staten Island",
-                borderColor:"rgba(18,184,134,0.5)",
-                backgroundColor:"rgba(18,184,134,0.1)",
-                data: statenIsland["yearly_amount"]
+                borderColor:"rgba(18,184,134,1)",
+                backgroundColor:"rgba(18,184,134,.3)",
+                // backgroundColor:"rgba(18,184,134,0.1)",
+                data: statenIsland["yearly_amount"],
+                type:"line"
               },
               {
                 label:"Queens",
-                borderColor:"rgba(245,159,0,0.5)",
-                backgroundColor:"rgba(245,159,0,0.1)",
-                data: queens["yearly_amount"]
+                borderColor:"rgba(245,159,0,1)",
+                backgroundColor:"rgba(245,159,0,.3)",
+                // backgroundColor:"rgba(245,159,0,0.1)",
+                data: queens["yearly_amount"],
+                type:"line"
               },
               {
                 label:"Citywide",
-                borderColor:"rgba(190,75,219,0.5)",
-                backgroundColor:"rgba(190,75,219,0.1)",
-                data: citywide["yearly_amount"]
+                borderColor:"rgba(190,75,219,1)",
+                backgroundColor:"rgba(190,75,219,.3)",
+                // backgroundColor:"rgba(190,75,219,0.1)",
+                data: citywide["yearly_amount"],
+                type:"line"
+              },
+              {
+                label:"Total",
+                borderColor:"rgba(102,102,102,.5)",
+                backgroundColor:"rgba(102,102,102,.5)",
+                data:boroughYearTotal,
+                // type:"line"
               }]
           },
           options: {
+            elements: {line: {tension: 0}},
             tooltips:{
               titleFontSize: $(window).width()<=700?8:12,
               bodyFontSize: $(window).width()<=700?8:12,
@@ -280,15 +248,82 @@ $(document).ready(function(){
             }
           }
         };
-        if (dataset === "data1"){
-          stackedLine = new Chart(chart, data1);
-        } else if (dataset === "data2"){
-          stackedLine = new Chart(chart, data2);
+        stackedLine = new Chart(chart, data2);
+      };
+
+      let agencyConverter = function(agency){
+        switch(agency){
+          case "ACS": return "Child Sevices"; break;
+          case "BKBP": return "Brooklyn Borough President"; break;
+          case "BKCB": return "Brooklyn Community Board"; break;
+          case "BPL": return "Brooklyn Public Library"; break;
+          case "BXBP": return "Bronx Borough President"; break;
+          case "BXCB": return "Bronx Community Board"; break;
+          case "CCRB": return "Civilian Complaint Review"; break;
+          case "CFB": return "Campaign Finance"; break;
+          case "CLERK": return "Clerk"; break;
+          case "COIB": return "Conflict of Interest"; break;
+          case "CUNY": return "City University of New York"; break;
+          case "City Clerk": return "City Clerk"; break;
+          case "DABK": return "Brooklyn District Attorney"; break;
+          case "DABX": return "Bronx District Attorney"; break;
+          case "DANY": return "New York District Attorney"; break;
+          case "DAQN": return "Queens District Attorney"; break;
+          case "DASI": return "Staten Island District Attorney"; break;
+          case "DCA": return "Consumer Affairs"; break;
+          case "DCAS": return "Citywide Administrative Services"; break;
+          case "DCLA": return "Cultural Affairs"; break;
+          case "DCP": return "City Planning"; break;
+          case "DDC": return "Design and Constructions"; break;
+          case "DFTA": return "Aging"; break;
+          case "DHS": return "Homeless Service"; break;
+          case "DJJ": return "Juvenile Justice"; break;
+          case "DOE": return "Education"; break;
+          case "DOHMH": return "Health and Mental Hygiene"; break;
+          case "DOITT": return "IT and Telecommunications"; break;
+          case "DOP": return "Probation"; break;
+          case "DOT": return "Transportation"; break;
+          case "DPR": return "Parks and Recreation"; break;
+          case "DSBS": return "Small Business Service"; break;
+          case "DSNY": return "Sanitation"; break;
+          case "DSS": return "Social Services"; break;
+          case "DSS/HRA": return "Social Services/Human Resources"; break;
+          case "DYCD": return "Youth and Community Development"; break;
+          case "FDNY": return "Fire Department"; break;
+          case "HHC": return "Health and Hospitals Corporation"; break;
+          case "HPD": return "Housing Preservation and Development"; break;
+          case "HRA": return "Human Resources"; break;
+          case "HRC": return "Human Rights"; break;
+          case "MAYOR": return "Mayor"; break;
+          case "MISC": return "Misc."; break;
+          case "MNBP": return "Manhattan Borough President"; break;
+          case "MNCB": return "Manhattan Community Board"; break;
+          case "MOCJ": return "Criminal Justice"; break;
+          case "NYCC": return "City Council"; break;
+          case "NYCHA": return "Housing Authority"; break;
+          case "NYPD": return "Police Department"; break;
+          case "NYPL": return "New York Public Library"; break;
+          case "NYPL-R": return "New York Public Library"; break;
+          case "OCJC": return "Criminal Justice Coordinator"; break;
+          case "OEM": return "Emergency Management"; break;
+          case "OSNP": return "Special Narcotics Prosecutor"; break;
+          case "PA": return "Public Administrator"; break;
+          case "PABK": return "Brooklyn Public Administrator"; break;
+          case "PABX": return "Bronx Public Administrator"; break;
+          case "PANY": return "New York Public Administrator"; break;
+          case "PAQN": return "Queens Public Administrator"; break;
+          case "PASI": return "Staten Island Public Administrator"; break;
+          case "QBPL": return "Queens Public Library"; break;
+          case "QNBP": return "Queens Borough President"; break;
+          case "QNCB": return "Queens Community Board"; break;
+          case "SIBP": return "Staten Island Borough President"; break;
+          case "SICB": return "Staten Island Community Board"; break;
+          case "SIDA": return "Staten Island District Attorney"; break;
         };
       };
 
       let updateAgencyYear = function(year,object,criteria){
-        let color,backgroundColor,data3,agencies = [];
+        let color,backgroundColor,data3,agencies=[],sortedAgencies=[];
         switch(parseInt(year)%5){
           case 0:
             borderColor = "rgba(47,86,166,0.9)";
@@ -315,108 +350,72 @@ $(document).ready(function(){
             backgroundColor = "rgba(190,75,219,0.5)";
             break;
         };
-        if (criteria === "number of funds"){
-          for (let agency in object[year]["agencies"]){
-            agencies.push(object[year]["agencies"][agency]);
-          };
-          data3 = {
-            type:"bar",
-            data:{
-              labels:Object.keys(object[year]["agencies"]),
-              datasets:[
-                {
-                  label:"Funds given in "+year,
-                  borderColor:borderColor,
-                  backgroundColor:backgroundColor,
-                  data:agencies
-                }
-              ]
-            },
-            options: {
-              legend:{
-                display: false
-              },
-              scales: {
-                xAxes: [{
-                  ticks:{
-                    autoSkip: false,
-                    fontSize: $(window).width()<=700?8:12
-                  }
-                }],
-                yAxes: [{
-                  ticks:{
-                    fontSize: $(window).width()<=700?8:12
-                  }
-                }]
-              },
-              tooltips:{
-                titleFontSize: $(window).width()<=700?8:12,
-                bodyFontSize: $(window).width()<=700?8:12,
-                footerFontSize: $(window).width()<=700?8:12,
-                mode: "index",
-                intersect: false
-              }
-            }
-          };
-        } else if (criteria === "amount funded"){
-          for (let agency in object[year]["agencies_amount"]){
-            agencies.push(object[year]["agencies_amount"][agency]);
-          };
-          data3 = {
-            type:"bar",
-            data:{
-              labels:Object.keys(object[year]["agencies"]),
-              datasets:[
-                {
-                  label:"Funds given in "+year,
-                  borderColor:borderColor,
-                  backgroundColor:backgroundColor,
-                  data:agencies
-                }
-              ]
-            },
-            options: {
-              legend:{
-                display: false
-              },
-              tooltips:{
-                titleFontSize: $(window).width()<=700?8:12,
-                bodyFontSize: $(window).width()<=700?8:12,
-                footerFontSize: $(window).width()<=700?8:12,
-                mode: "index",
-                intersect: false,
-                callbacks: {
-                  label: function(tooltipItems, data,index) {
-                    if(parseInt(tooltipItems.yLabel) >= 1000){
-                      return '$' + tooltipItems.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    } else {
-                      return '$' + tooltipItems.yLabel;
-                    };
-                  }
-                }
-              },
-              scales: {
-                xAxes: [{
-                  ticks:{
-                    autoSkip: false,
-                    fontSize: $(window).width()<=700?8:12
-                  }
 
-                }],
-                yAxes: [{
-                  ticks: {
-                    beginAtZero: true,
-                    callback: function(value, index, values) {
-                      if(parseInt(value) >= 1000){
-                        return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                      } else {
-                        return '$' + value;
-                      };
-                    },
-                    fontSize: $(window).width()<=700?8:12,
-                  }
-                }]
+        for (let agency in object[year]["agencies_amount"]){
+          sortedAgencies.push(agency);
+        };
+        sortedAgencies.sort();
+        for (let p = 0; p < sortedAgencies.length; p++){
+          agencies.push(object[year]["agencies_amount"][sortedAgencies[p]]);
+        }
+
+        data3 = {
+          type:"bar",
+          data:{
+            labels:sortedAgencies,
+            datasets:[
+              {
+                label:"Funds given in "+year,
+                borderColor:borderColor,
+                backgroundColor:backgroundColor,
+                data:agencies
               }
+            ]
+          },
+          options: {
+            legend:{
+              display: false
+            },
+            tooltips:{
+              titleFontSize: $(window).width()<=700?8:12,
+              bodyFontSize: $(window).width()<=700?8:12,
+              footerFontSize: $(window).width()<=700?8:12,
+              mode: "index",
+              intersect: false,
+              callbacks: {
+                title:function(tooltipItems, data,index){
+                  return agencyConverter(tooltipItems[0].xLabel);
+                },
+                label: function(tooltipItems, data,index) {
+                  if(parseInt(tooltipItems.yLabel) >= 1000){
+                    return '$' + tooltipItems.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  } else {
+                    return '$' + tooltipItems.yLabel;
+                  };
+                }
+              }
+            },
+            scales: {
+              xAxes: [{
+                ticks:{
+                  autoSkip: false,
+                  fontSize: $(window).width()<=700?8:12
+                }
+
+              }],
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true,
+                  callback: function(value, index, values) {
+                    if(parseInt(value) >= 1000){
+                      return '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    } else {
+                      return '$' + value;
+                    };
+                  },
+                  fontSize: $(window).width()<=700?8:12,
+                }
+              }]
             }
           }
         };
@@ -475,6 +474,9 @@ $(document).ready(function(){
         $("#modal .iziModal-content .additional-details").html(data);
         $('#modal').iziModal('open');
       };
+/*--------------------------------------------------------------------------------------------------|
+|                                           JQUERY EVENTS                                           |
+|--------------------------------------------------------------------------------------------------*/
       $('#search-bar #search-form').submit(function(e){
         e.preventDefault();
         userList.clear();
@@ -492,67 +494,59 @@ $(document).ready(function(){
           $(this).attr("data-sort-asc",!toggleValue);
         });
       });
+
       $("#advanced-options input").on("change",function(){
         if($("#advanced-options input:checked").length !== 0){
-          $(this).prop("checked")?$("div#search-field-container").prepend('<input class="search-fields" id="'+$(this).val()+'" type="text" placeholder="'+$(this).val().split("_").join(" ").titleize()+'" required>'):$("#"+$(this).val()).remove();
+          if($(this).val()==="borough"){
+            $(this).prop("checked")?$("div#search-field-container").prepend('<div class="col-lg-4 col-md-6 col-12"><select class="search-fields" id="'+$(this).val()+'" required><option value="BRONX">Bronx</option><option value="BROOKLYN">Brooklyn</option><option value=" ">Citywide</option><option value="MANHATTAN">Manhattan</option><option value="STATEN IS">Staten Island</option><option value="QUEENS">Queens</option></select></div>'):$("#"+$(this).val()).parent().remove();
+          }else if($(this).val()==="council_member"){
+
+          }else{
+            $(this).prop("checked")?$("div#search-field-container").prepend('<div class="col-lg-4 col-md-6 col-12"><input class="search-fields" id="'+$(this).val()+'" type="text" placeholder="'+$(this).val().split("_").join(" ").titleize()+'"></div>'):$("#"+$(this).val()).parent().remove();
+          }
         } else {
           alert("You need at least one search term.");
           $(this).prop("checked",true);
         };
       });
+
       $("#search-menu-button").click(function(){
         if($("#search-container").is(":visible")){
-          $("#search-container").animate({"left":"-"+$("#search-container").width()+"px"},500);
+          $("#search-container").animate({"left":"-"+($("#search-container").width()+60)+"px"},500);
           setTimeout(function(){$("#search-container").hide()},500);
         } else {
-          $("#search-container").show().animate({"left":"0px"},500);
+          $("#search-container").show().css({"left":"-"+($("#search-container").width()+60)+"px"}).animate({"left":"0px"},500);
           resizeSearch();
         };
       });
+
       $("#close-menu span").click(function(){
-        $("#search-container").animate({"left":"-"+$("#search-container").width()+"px"},500);
+        $("#search-container").animate({"left":"-"+($("#search-container").width()+60)+"px"},500);
         setTimeout(function(){$("#search-container").hide()},500);
       });
+
       $("#change").click(function(e){
         e.preventDefault();
         stackedLine.destroy();
         switch(dataShown){
           case 1:
-            $(this).html("View Funds to Agencies");
-            createLineGraphs("data2");
-            dataShown = 2;
-            $("#custom-chart-title").html("Amount Received by Organization's Borough(s)");
-          break;
-          case 2:
-            $(this).html("View Amount Per Agency");
-            $("#agency-year-slider").off().val("2009");
-            $("#chart-container").prepend('<div class="slide-container"><input type="range" min="2009" max="'+stackedLine.data.labels.slice(-2,-1)+'" value="2009" step="1" id="agency-year-slider" title="Move the slider to view data from other years"></div>');
-            updateAgencyYear("2009",fundedYears,"number of funds");
-            $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
-            $("#agency-year-slider").on("input", function(e){
-              updateAgencyYear($(this).val(),fundedYears,"number of funds");
-              $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
-            });
-            dataShown = 3;
-            $("#custom-chart-title").html("Funds Received by Organization's Agency");
-            $("#agency-year-slider").show();
-          break;
-          case 3:
-            $(this).html("View Funds to Boroughs");
+            $(this).html("View Amount by Boroughs");
             $("#agency-year-slider").off().val("2009");
             updateAgencyYear("2009",fundedYears,"amount funded");
+            $("#chart-container").prepend('<div class="slide-container"><input type="range" min="2009" max="'+maxYear+'" value="2009" step="1" id="agency-year-slider" title="Move the slider to view data from other years"></div>');
             $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
             $("#agency-year-slider").on("input", function(e){
               updateAgencyYear($(this).val(),fundedYears,"amount funded");
               $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
             });
-            dataShown = 4;
+            dataShown = 2;
             $("#custom-chart-title").html("Amount Received by Organization's Agency");
+            $("#agency-year-slider").show();
           break;
-          case 4:
-            $(this).html("View Amount Per Borough");
+          case 2:
+            $(this).html("View Amount by Agencies");
             $(".slide-container").remove();
-            createLineGraphs("data1");
+            createLineGraphs("data2");
             dataShown = 1;
             $("#custom-chart-title").html("Funds Received by Organization's Borough(s)");
           break;
@@ -560,9 +554,9 @@ $(document).ready(function(){
       });
 
       userList = new List('budgets',options,[]);
-      createLineGraphs("data1");
+      createLineGraphs("data2");
+      maxYear = stackedLine.data.labels[stackedLine.data.labels.length-1];
 
-      //End of success
       $("body").css({"position":"static","overflow-y":"visible"});
       $("#loader").hide();
       $("#not-loader").css({"visibility":"visible"});
@@ -589,8 +583,9 @@ $(document).ready(function(){
         stackedLine.update();
         resizeSearch();
       });
+    //End of success
     }
-    //End of AJAX GET request
+  //End of AJAX GET request
   });
   
   function resizeSearch(){
@@ -602,7 +597,8 @@ $(document).ready(function(){
       searchHeight = $("body").height()+parseInt($("body").css("margin-top").slice(0,-2))+parseInt($("body").css("margin-bottom").slice(0,-2))+"px";
       $("body").css("overflow-y","visible");
     };
-    $("#search-container").css({"left": "-"+$("#search-container").width()+"px","height":searchHeight});
+    // $("#search-container").css({"left": "-"+($("#search-container").width()+60)+"px","height":searchHeight});
+    $("#search-container").css({"height":searchHeight});
   };
   //Prototyping functions
   Array.prototype.extractSubSet = function(criteria, criteriaValue){
@@ -612,15 +608,15 @@ $(document).ready(function(){
   };
   //titleize words
   String.prototype.titleize = function() {
-    let words = this.split(" ");
-    let word_count = words.length;
-    for(let i = 0; i < word_count; i++){
-      i === 0?words[i] = words[i].capitalize():"";
+    let words=this.split(" ");
+    let word_count=words.length;
+    for(let i=0;i<word_count;i++){
+      i===0?words[i]=words[i].capitalize():"";
     };
     return words.join(" ");
   };
   String.prototype.capitalize = function() {
-    let word = this;
+    let word=this;
     if (word[0] && word.toUpperCase){
       return word[0].toUpperCase() + word.slice(1);
     };
@@ -630,3 +626,178 @@ $(document).ready(function(){
   };
 //End document ready
 });
+
+
+
+
+
+// OLD CODE FOR SWITCH CHARTS 
+/*
+switch(dataShown){
+  case 1:
+    $(this).html("View Funds to Agencies");
+    createLineGraphs("data2");
+    dataShown = 2;
+    $("#custom-chart-title").html("Amount Received by Organization's Borough(s)");
+  break;
+  case 1:
+    $(this).html("View Amount Per Agency");
+    $("#agency-year-slider").off().val("2009");
+    $("#chart-container").prepend('<div class="slide-container"><input type="range" min="2009" max="'+stackedLine.data.labels.slice(-2,-1)+'" value="2009" step="1" id="agency-year-slider" title="Move the slider to view data from other years"></div>');
+    updateAgencyYear("2009",fundedYears,"number of funds");
+    $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
+    $("#agency-year-slider").on("input", function(e){
+      updateAgencyYear($(this).val(),fundedYears,"number of funds");
+      $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
+    });
+    dataShown = 2;
+    $("#custom-chart-title").html("Funds Received by Organization's Agency");
+    $("#agency-year-slider").show();
+  break;
+  case 2:
+    $(this).html("View Funds to Boroughs");
+    $("#agency-year-slider").off().val("2009");
+    updateAgencyYear("2009",fundedYears,"amount funded");
+    $(".yearNumber").stop(true,true).html("2009").animate({"opacity":1},325).animate({"opacity":0},325);
+    $("#agency-year-slider").on("input", function(e){
+      updateAgencyYear($(this).val(),fundedYears,"amount funded");
+      $(".yearNumber").stop(true,true).html($(this).val()).animate({"opacity":1},325).animate({"opacity":0},325);
+    });
+    dataShown = 1;
+    $("#custom-chart-title").html("Amount Received by Organization's Agency");
+  break;
+  case 4:
+    $(this).html("View Amount Per Borough");
+    $(".slide-container").remove();
+    createLineGraphs("data1");
+    dataShown = 1;
+    $("#custom-chart-title").html("Funds Received by Organization's Borough(s)");
+  break;
+};
+*/
+
+// FIRST SET OF LINE GRAPH DATA (NUMBER OF FUNDS)
+/*
+let data1 = {
+  type: "line",
+  data:{
+    labels: labels,
+    datasets:
+      [{
+        label:"Bronx",
+        borderColor: "rgba(47,86,166,0.5)",
+        backgroundColor: "rgba(47,86,166,0.1)",
+        data: bronx["budget_by_area"]
+      },
+      {
+        label:"Brooklyn",
+        borderColor:"rgba(208,93,78,0.5)",
+        backgroundColor:"rgba(208,93,78,0.1)",
+        data: brooklyn["budget_by_area"]
+      },
+      {
+        label:"Manhattan",
+        borderColor:"rgba(34,138,230,0.5)",
+        backgroundColor:"rgba(34,138,230,0.1)",
+        data: manhattan["budget_by_area"]
+      },
+      {
+        label:"Staten Island",
+        borderColor:"rgba(18,184,134,0.5)",
+        backgroundColor:"rgba(18,184,134,0.1)",
+        data: statenIsland["budget_by_area"]
+      },
+      {
+        label:"Queens",
+        borderColor:"rgba(245,159,0,0.5)",
+        backgroundColor:"rgba(245,159,0,0.1)",
+        data: queens["budget_by_area"]
+      },
+      {
+        label:"Citywide",
+        borderColor:"rgba(190,75,219,0.5)",
+        backgroundColor:"rgba(190,75,219,0.1)",
+        data: citywide["budget_by_area"]
+      }]
+  },
+  options: {
+    scales: {
+      xAxes:[{
+        ticks:{
+          autoSkip:false,
+          fontSize: $(window).width()<=700?8:12
+        }
+      }],
+      yAxes: [{
+        ticks:{
+          fontSize: $(window).width()<=700?8:12
+        }
+      }]
+    },
+    tooltips:{
+      titleFontSize: $(window).width()<=700?8:12,
+      bodyFontSize: $(window).width()<=700?8:12,
+      footerFontSize: $(window).width()<=700?8:12,
+      mode: "index",
+      intersect: false
+    }
+  }
+};
+*/
+
+//SECOND SET OF SLIDER BAR GRAPH DATA (NUMBER OF FUNDS)
+/*
+if (criteria === "number of funds"){
+  for (let agency in object[year]["agencies"]){
+    sortedAgencies.push(agency);
+  };
+  sortedAgencies.sort();
+  for (let p = 0; p < sortedAgencies.length; p++){
+    agencies.push(object[year]["agencies"][sortedAgencies[p]]);
+  }
+  data3 = {
+    type:"bar",
+    data:{
+      labels:sortedAgencies,
+      datasets:[
+        {
+          label:"Funds given in "+year,
+          borderColor:borderColor,
+          backgroundColor:backgroundColor,
+          data:agencies
+        }
+      ]
+    },
+    options: {
+      legend:{
+        display: false
+      },
+      scales: {
+        xAxes: [{
+          ticks:{
+            autoSkip: false,
+            fontSize: $(window).width()<=700?8:12
+          }
+        }],
+        yAxes: [{
+          ticks:{
+            fontSize: $(window).width()<=700?8:12
+          }
+        }]
+      },
+      tooltips:{
+        titleFontSize: $(window).width()<=700?8:12,
+        bodyFontSize: $(window).width()<=700?8:12,
+        footerFontSize: $(window).width()<=700?8:12,
+        mode: "index",
+        intersect: false,
+        callbacks: {
+          title:function(tooltipItems, data,index){
+            return agencyConverter(tooltipItems[0].xLabel);
+          }
+        }
+      }
+    }
+  };
+} else if (criteria === "amount funded"){
+*/
