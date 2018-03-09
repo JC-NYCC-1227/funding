@@ -147,7 +147,7 @@ $(document).ready(function(){
       };
       let createLineGraphs = function(dataset){
         let data2 = {
-          type: "bar",
+          type: "line",
           data: {
             labels: labels,
             datasets:
@@ -157,7 +157,6 @@ $(document).ready(function(){
                 backgroundColor: "rgba(47,86,166,.3)",
                 // backgroundColor: "rgba(47,86,166,0.1)",
                 data: bronx["yearly_amount"],
-                type:"line"
               },
               {
                 label:"Brooklyn",
@@ -165,7 +164,6 @@ $(document).ready(function(){
                 backgroundColor:"rgba(208,93,78,.3)",
                 // backgroundColor:"rgba(208,93,78,0.1)",
                 data: brooklyn["yearly_amount"],
-                type:"line"
               },
               {
                 label:"Manhattan",
@@ -173,7 +171,6 @@ $(document).ready(function(){
                 backgroundColor:"rgba(34,138,230,.3)",
                 // backgroundColor:"rgba(34,138,230,0.1)",
                 data: manhattan["yearly_amount"],
-                type:"line"
               },
               {
                 label:"Staten Island",
@@ -181,7 +178,6 @@ $(document).ready(function(){
                 backgroundColor:"rgba(18,184,134,.3)",
                 // backgroundColor:"rgba(18,184,134,0.1)",
                 data: statenIsland["yearly_amount"],
-                type:"line"
               },
               {
                 label:"Queens",
@@ -189,7 +185,6 @@ $(document).ready(function(){
                 backgroundColor:"rgba(245,159,0,.3)",
                 // backgroundColor:"rgba(245,159,0,0.1)",
                 data: queens["yearly_amount"],
-                type:"line"
               },
               {
                 label:"Citywide",
@@ -197,14 +192,12 @@ $(document).ready(function(){
                 backgroundColor:"rgba(190,75,219,.3)",
                 // backgroundColor:"rgba(190,75,219,0.1)",
                 data: citywide["yearly_amount"],
-                type:"line"
               },
               {
                 label:"Total",
                 borderColor:"rgba(102,102,102,.5)",
-                backgroundColor:"rgba(102,102,102,.5)",
+                backgroundColor:"transparent",
                 data:boroughYearTotal,
-                // type:"line"
               }]
           },
           options: {
