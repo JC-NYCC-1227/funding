@@ -492,7 +492,7 @@ $(document).ready(function(){
         if($("#advanced-options input:checked").length !== 0){
           if($(this).val()==="borough"){
             $(this).prop("checked")?$("div#search-field-container").prepend('<div class="col-lg-4 col-md-6 col-12"><select class="search-fields" id="'+$(this).val()+'" required><option value="BRONX">Bronx</option><option value="BROOKLYN">Brooklyn</option><option value=" ">Citywide</option><option value="MANHATTAN">Manhattan</option><option value="STATEN IS">Staten Island</option><option value="QUEENS">Queens</option></select></div>'):$("#"+$(this).val()).parent().remove();
-          }else if($(this).val()==="council_member"){
+          // }else if($(this).val()==="council_member"){
 
           }else{
             $(this).prop("checked")?$("div#search-field-container").prepend('<div class="col-lg-4 col-md-6 col-12"><input class="search-fields" id="'+$(this).val()+'" type="text" placeholder="'+$(this).val().split("_").join(" ").titleize()+'"></div>'):$("#"+$(this).val()).parent().remove();
